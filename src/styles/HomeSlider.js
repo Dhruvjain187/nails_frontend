@@ -3,6 +3,13 @@ import styled from "styled-components";
 export const MainSlide = styled.div`
     display:block;
     overflow: hidden;
+ 
+    & .icons{
+        font-size: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     & .img-con{
         img{
@@ -13,24 +20,29 @@ export const MainSlide = styled.div`
 
     & .slick-prev{
         left: 15px;
+        height: 46px;
+        width: 46px;
         background: rgba(252,252,252,.7);
         color: black !important;
         z-index: 5;
-        /* height: 50px;
-        width: 50px; */
+        /* height: 46px;
+        width: 46px; */
     }
 
         & .slick-next{
         right: 15px;
+        height: 46px;
+        width: 46px;
         background: rgba(252,252,252,.7);
         color: black ;
         z-index: 5;
-        /* height: 50px;
-        width: 50px; */
+        /* height: 46px;
+        width: 46px; */
     }
 
     & .slick-prev:before,& .slick-next:before{
         color: black;
+        display: none;
         /* font-size: 40px; */
     }
 `

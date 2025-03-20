@@ -1,16 +1,19 @@
 import { theme } from "../styles/GlobalStyles"
 import { BrandContainer } from "../styles/Brands"
 import ProductComponentHeader from "./ProductComponentHeader"
-
+import { ProductHeader } from "../styles/ProductComponentHeader"
 
 export default function Brands() {
     return (
         <>
-            <BrandContainer theme={theme}>
-                <ProductComponentHeader title={"Shop By Brands"} btn={"VIEW MORE"} />
-
+            <BrandContainer >
+                {/* <ProductComponentHeader title={"Shop By Brands"} btn={"VIEW MORE"} /> */}
+                <ProductHeader className="exception">
+                    <h2>Shop By Brands</h2>
+                    <a href=""><span>VIEW MORE</span><i className="fa-solid fa-arrow-right-long"></i></a>
+                </ProductHeader>
                 <ul className="brand">
-                    <li>
+                    <li className="exception-li">
                         <div className="icon-cont">
                             <img src="https://media.lanailsupplies.com/wysiwyg/DND-Logo-R-min.webp" alt="" />
                         </div>

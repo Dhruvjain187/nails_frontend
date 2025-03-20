@@ -2,7 +2,7 @@ import Slider from "react-slick"
 import { CommentContainer } from "../styles/Comments";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { theme } from "../styles/GlobalStyles";
+
 
 export default function Comments() {
     const settings = {
@@ -55,9 +55,11 @@ export default function Comments() {
 
     return (
         <>
-            <CommentContainer theme={theme}>
-                <h2>Customer Success Stories</h2>
-                <p>Why customers love LA Nail Supplies, the one stop shop</p>
+            <CommentContainer >
+                <header>
+                    <h2>Customer Success Stories</h2>
+                    <p className="exception">Why customers love LA Nail Supplies, the one stop shop</p>
+                </header>
                 <div className="slider-container">
                     <Slider {...settings} >
                         <div className="comment-margin">

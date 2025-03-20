@@ -1,6 +1,40 @@
 import styled from "styled-components";
 
+export const StickyHeader = styled.div`
+    position: sticky;
+    top: 0;
+    /* bottom: 0; */
+    z-index: 10;
+`
+
 export const MainHeader = styled.div`
+font-family: "Roboto";
+background-color: ${({ theme }) => theme.colors.white};
+margin-bottom:10px;
+
+/* & .styled-icons{
+    display: flex;
+    align-items: center;
+}
+
+& .menu{
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+}
+
+& span.icons{
+    font-size: 30px !important;
+
+    & svg{
+        display: inline-block;
+    }
+}
+
+& span.user{
+    font-size: 26px !important;
+} */
+
 & label{
     display: none;
 }
@@ -9,13 +43,15 @@ export const MainHeader = styled.div`
     display: none ;
 }
 
+
+
 & .close{
     display: none;
     width: 30%;
 }
 
-& div  .fa-solid:hover{
-    color: ${(props) => props.theme.colors.pinkish} ;
+& div  .fa-bars:hover{
+    color: ${({ theme }) => theme.colors.pinkish} ;
  }
 
 
@@ -117,16 +153,25 @@ export const MainHeader = styled.div`
 `
 
 export const Header1 = styled.div`
-padding: 10px 15px;
+padding: 12px 17px;
 display: flex;
-justify-content: space-between;
+justify-content: space-around;
 align-items: center;
-line-height: 1.5rem;
+line-height: 1.42857143;
+font-weight: 1.4rem;
+box-sizing: content-box;
+gap:1rem;
+margin-bottom: 7px;
 
+& span.number{
+    font-weight: 500;
+    font-size: 15px;
+}
 
 img{
-height: 31.44px;
-    aspect-ratio: auto 220 / 37
+    height: 37.09px;
+    aspect-ratio: auto 220 / 37;
+    display: block;
 }
 
 
@@ -135,8 +180,20 @@ height: 31.44px;
 }
 
 & .input{
-    width: 37%;
+    width: 100%;
+    max-width: 55%;
+
+    & input[type="text"]{
+        padding: 0;
+        padding-left:10px;
+        height: 42px;
+        border-radius: 100px;
+    }
 }
+
+.image{
+        line-height: 1 ;
+    }
 
 input[type="text"]{
     all: unset;
@@ -154,21 +211,35 @@ input[type="checkbox"]{
     display: none;
 }
 
+@media(max-width:1115px){
+    justify-content: space-between;
 
-@media(max-width:970px){
+    & .input{
+    width: 100%;
+    max-width: 37%;
+}
+
+& span.number{
+    font-weight: 400;
+    font-size: 14px;
+}
+}
+
+@media(max-width:1025px){
     .menu{
        display: block;
     } 
 
     img{
-        height: 33.94px;
+        height: 26.97px;
+        /* height: 33.94px; */
     }
 }
 
 @media(max-width:800px){
  flex-wrap:wrap ;
 
- span{
+ span.number{
     display:none
  }
 
@@ -184,10 +255,10 @@ input[type="checkbox"]{
 
 
 @media(max-width:625px){
-    gap:0.5rem;
 
     .image{
         margin-right: auto;
+        /* line-height: 1 ; */
     }
 
 }
@@ -198,8 +269,8 @@ input[type="checkbox"]{
 
 export const Header2 = styled.div`
 padding: 0 15px 0;
-box-shadow: 0 4px 12px 0 rgba(0,0,0,.1);
-position: relative;
+box-shadow:0 4px 12px 0 rgba(0,0,0,.1);
+/* position: relative; */
 
 
 .box{
@@ -207,23 +278,32 @@ position: relative;
     display: flex;
 }
 
+.best{
+    position: relative
+}
+
+
+
 
 .shop,.best-shop{
     margin: 0 auto;
     list-style: none;
     display: none;
-    /* height: 60vh; */
+    max-height: 60vh;
     position: absolute;
-    top: 43px;
+    top: 41px;
     left: 0;
     right: 0;
+    padding: 0;
     z-index: 10;
-    background: ${(props) => props.theme.colors.white};
+    background: ${({ theme }) => theme.colors.white};
     /* overflow-y: scroll; */
-    /* overflow: scroll; */
+    overflow: auto;
 
     & li{
+        box-sizing: border-box;
         width: 20%;
+        height: 100%;
         display: flex;
         padding: 20px;
         flex-direction: column;
@@ -234,8 +314,20 @@ position: relative;
     }
 }
 
+& .shop li{
+    display: flex !important;
+}
+
+& .best-shop{
+    width: 250px;
+
+}
+
+
+
 .collectionul{
     margin: 0 auto;
+    width: 80%;
     list-style: none;
     display: none;
     /* height: 60vh; */
@@ -243,7 +335,17 @@ position: relative;
     top: 43px;
     margin: 0 auto;
     z-index: 10;
-    background: ${(props) => props.theme.colors.white};
+    background: ${({ theme }) => theme.colors.white};
+
+    li{
+        width: 25%;
+    }
+}
+
+.best-shop{
+    li{
+        width: 100%;
+    }
 }
 
 .shop li:nth-child(odd){
@@ -275,7 +377,7 @@ position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* position: relative; */
+    position: relative;
 
     & .box{
         box-sizing: content-box;
@@ -295,7 +397,7 @@ position: relative;
 
             &{
             display: none;
-            position: absolute;
+            position: fixed;
             left: -100%;
          
         
@@ -309,20 +411,39 @@ position: relative;
 
 export const NavAnchor = styled.a`
         font-family: "Roboto";
-        padding: 12px;
-        font-size: clamp(0.5rem, 100vw, 0.81rem);
+        padding: 10px 20px;
+        font-size: 16px;
         cursor: pointer;
         display: block;
 
         &:hover{
-        background:${(props) => props.colors || "white"};
-   
+        color:white;
+        background:${(props) => props.colors || "white"}; 
+    }
+
+    & i{
+        margin-left: 5px;
+    }
+
+    &.exception:hover{
+        color:black;
+    }
+
+    @media(max-width:1328px){
+        font-size: 12px;
+        padding: 12px;
+
+        & i{
+            margin-left: 0px;
+        }
     }
 `
 
 
 export const ListAnchor = styled.a`
 display: block;
-    color:${(props) => props.colors || "black"};
-    padding:${(props) => props.padding || "0 0 5px"};
+font-size: 15px;
+color:${(props) => props.colors || "black"};
+padding:${(props) => props.padding || "0 0 5px"};
+        font-weight: ${(props) => props.fontwt};
 `

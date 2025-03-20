@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const BrandContainer = styled.div`
     margin-bottom: 30px;
     font-family: "Roboto";
+    padding: 15px;
 
     & .brand{
         display: flex;
@@ -12,11 +13,13 @@ export const BrandContainer = styled.div`
         overflow:auto;
     }
 
+
     & li{
         margin: 0 10px;
 
 
         & .icon-cont{
+            margin: 0 auto;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -31,11 +34,11 @@ export const BrandContainer = styled.div`
         }
 
         & .icon-cont:hover{
-            border:${(props) => `2px solid ${props.theme.colors.brown}`}
+            border:${({ theme }) => `2px solid ${theme.colors.brown}`}
         }
 
         & .icon-cont:hover ~p{
-            color:${(props) => props.theme.colors.brown};
+            color:${({ theme }) => theme.colors.brown};
         }
 
         & img{
@@ -49,5 +52,49 @@ export const BrandContainer = styled.div`
             font-size:14px;
             color:black;
         }
+    }
+
+        & .exception-li{
+        /* margin-left: 0; */
+    }
+
+    @media(max-width:750px){
+        &{
+            padding:15px;
+            background:#f9f9f9;
+        }
+
+        & .exception{
+            padding:0;
+        }
+
+        & a{
+            background:#f9f9f9;    
+        }
+
+        & .brand{
+            overflow:none;
+            flex-wrap:wrap;
+            justify-content:center;
+            align-items:center;
+        }
+
+        & li{
+            margin:0;
+            width:25%;
+            padding:8px 3px;
+            box-sizing:border-box;
+
+            & .icon-cont{
+                padding:0;
+                height:65px;
+                width: 65px;
+                background:white;
+            }
+        }
+
+        & li p{
+            display:none;
+        }        
     }
 `

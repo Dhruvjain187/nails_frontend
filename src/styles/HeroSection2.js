@@ -3,6 +3,7 @@ import styled from "styled-components"
 export const HeroSection = styled.div`
     font-family: "Roboto";
     padding: 0 15px;
+    margin-bottom: 30px;
     
     & article{
         display: flex;
@@ -17,16 +18,17 @@ export const HeroSection = styled.div`
     & h2{
         line-height: 1.1;
         font-size: 25px;
-        margin: 20px 0;
+        margin: 10px 0;
         font-weight: 700;
-        color:${(props) => props.theme.colors.darkblack};
+        color:${({ theme }) => theme.colors.darkblack};
     }
 
     & p{
         font-size: 16px;
-        color:${(props) => props.theme.colors.darkblack};
+        color:${({ theme }) => theme.colors.darkblack};
         font-weight: 400;
         margin: 0 0 1rem 0;
+        margin: 10px 0;
     }
 
     & footer{
@@ -43,17 +45,23 @@ export const HeroSection = styled.div`
         padding: 15px;
 
         header{
+         text-align: start;
             width: 100%;
+            line-height: normal;
+            margin-bottom: 10px;
             font-size: 12px;
-            color:${(props) => props.theme.colors.white};
+            color:${({ theme }) => theme.colors.white};
             font-weight: 400;
         }
 
         h2{
+            text-align: start;
+            height: 55px;
             font-weight: 500;
+            margin-top: 0;
             font-size: 14px;
             line-height: 20px;
-            color:${(props) => props.theme.colors.white};
+            color:${({ theme }) => theme.colors.white};
         }
 
         h2:hover{
@@ -118,6 +126,10 @@ export const HeroSection = styled.div`
 
         & .posts{
             min-width: 250px;
+
+            & h2{
+                height: 45px;
+            }
         }
 
         & .blog-posts{

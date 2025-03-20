@@ -5,13 +5,14 @@ export const HeroContainer = styled.div`
     align-items: center;
     font-family: "Roboto";
     margin-bottom: 30px;
+    padding: 0 15px;
 
     & picture{
         display: block;
     }
 
     & .text{
-        padding-left: 50px;
+        padding-left: 100px;
         max-width: 590px;
 
         h1{
@@ -39,7 +40,9 @@ export const HeroContainer = styled.div`
     }
 
     @media(max-width:1160px){
+
         & .text{
+                    padding-left: 50px;
             h1{
                 font-size: 40px;
                 line-height: 40px;

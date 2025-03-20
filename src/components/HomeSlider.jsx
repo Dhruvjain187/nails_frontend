@@ -2,17 +2,40 @@ import Slider from "react-slick"
 import { MainSlide } from "../styles/HomeSlider";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+
 
 export default function HomeSlider() {
     const settings = {
         dots: false,
         infinite: true,
         speed: 500,
+        nextArrow: <NextIconSize />,
+        prevArrow: <PrevIconSize />,
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
         autoplayspeed: 500
     };
+
+    function PrevIconSize(props) {
+        const { className, onClick } = props;
+        return (
+            <div className={`icons ${className}`} onClick={onClick} >
+                <SlArrowLeft />
+            </div >
+        )
+    }
+
+    function NextIconSize(props) {
+        const { className, onClick } = props;
+        return (
+            <div className={`icons ${className}`} onClick={onClick}>
+                <SlArrowRight />
+            </div >
+        )
+    }
+
 
     return (
         <>

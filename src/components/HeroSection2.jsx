@@ -1,11 +1,10 @@
 import { HeroSection } from "../styles/HeroSection2"
-import { theme } from "../styles/GlobalStyles"
 import Button from "./Button"
 
 export function HeroSection2() {
     return (
         <>
-            <HeroSection theme={theme}>
+            <HeroSection >
                 <article>
                     <header>
                         <h2>Latest Trends, Tips, and Help Guides in Nail Care</h2>

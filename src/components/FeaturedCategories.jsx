@@ -1,11 +1,10 @@
 import { FeatureCont } from "../styles/FeaturedCategories"
-import { theme } from "../styles/GlobalStyles"
 import ProductComponentHeader from "./ProductComponentHeader"
 
 export default function FeaturedCategories() {
     return (
         <>
-            <FeatureCont theme={theme}>
+            <FeatureCont >
                 {/* <header>
                     <h2>Featured Categories</h2>
                     <a href=""><span>VIEW MORE</span><i className="fa-solid fa-arrow-right-long"></i></a>

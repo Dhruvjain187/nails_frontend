@@ -12,8 +12,8 @@ export const CommentContainer = styled.div`
         text-align: center;
         font-family: "Poppins";
         font-size: 25px;
-        font-weight: 600;
-        color: ${(props) => props.theme.colors.darkblack};
+        font-weight: 500;
+        color: ${({ theme }) => theme.colors.darkblack};
     }
 
     & p{
@@ -43,7 +43,7 @@ export const CommentContainer = styled.div`
         border: 2px solid #ffebed;
 
         & h3{
-        font-weight: 500;
+        font-weight: 400;
         font-size: 16px;
         color: #000;
         margin: 0;
@@ -58,17 +58,24 @@ export const CommentContainer = styled.div`
         color: #2d2c2c;
         margin: 0;
         padding: 15px;
+        line-height: 1.42857143;
     }
     }
 
 
     @media(max-width: 780px){
-        & h2{
-            font-size: 18px;
-            font-weight: 700;
+        & header{
+            padding: 15px;
         }
 
-        & p{
+        & h2{
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        & p.exception{
+            margin: 0;
+            line-height: 28px;
             font-size: 13px;
         }
     }

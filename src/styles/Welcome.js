@@ -8,6 +8,7 @@ export const WelcomeCont = styled.ul`
     border: 1px solid #f3f5f7;
     font-family: "Roboto";
     text-align: center;
+    margin-bottom: 30px;
 
 
     & li{

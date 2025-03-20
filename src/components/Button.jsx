@@ -4,7 +4,7 @@ import { Btn } from "../styles/Button"
 export default function Button({ content }) {
     return (
         <>
-            <Btn theme={theme}>
+            <Btn >
                 {content}
             </Btn>
         </>

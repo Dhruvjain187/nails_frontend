@@ -1,11 +1,10 @@
-import { theme } from "../styles/GlobalStyles"
 import { HeroContainer } from "../styles/Hero"
 import Button from "./Button"
 
 export default function Hero() {
     return (
         <>
-            <HeroContainer theme={theme}>
+            <HeroContainer >
                 <picture>
                     <source media="(max-width: 700px)" srcSet="https://media.lanailsupplies.com/wysiwyg/home-welcome.png" />
                     <img src="https://media.lanailsupplies.com/wysiwyg/home-welcome.png" width={700} height={522} alt="" />

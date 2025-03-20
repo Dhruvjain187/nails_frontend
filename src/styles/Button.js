@@ -7,16 +7,19 @@ export const Btn = styled.a`
             line-height: 1;
             letter-spacing: 1.38px;
             display: inline-block;
-            font-size: 14px;
+            /* font-size: 14px; */
+            font-size: ${(props) => props.size || "14px"};
             border-radius: 5px;
             text-align: center;
             padding:10px;
             text-decoration: none;
-            color: ${(props) => props.theme.colors.white};
-            background: ${(props) => props.theme.colors.brown};
+            color: ${({ theme }) => theme.colors.white};
+            background: ${(props) => props.background || "#8e7069"};
+            /* background: ${({ theme }) => theme.colors.brown}; */
         }
 
     &:hover{
-        background: ${(props) => props.theme.colors.pinkish};    
+        background: ${(props) => props.backgroundhover || "#eb4159"};
+        /* background: ${({ theme }) => theme.colors.pinkish};     */
         }
 `

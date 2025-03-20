@@ -4,6 +4,7 @@ export const FeatureCont = styled.div`
     /* padding: 0 15px; */
     margin-bottom: 30px;
     font-family: "Roboto";
+    padding: 0 15px;
 
     /* & header{
         padding: 0 15px;
@@ -47,10 +48,12 @@ export const FeatureCont = styled.div`
 
     & .cards{
         display: flex;
+        margin: 0 -15px;
         /* padding: 0 15px; */
 
         & div.cards-pd{
             padding:0 15px;
+            box-sizing: border-box;
         }
 
         & div.cards-border{
@@ -59,27 +62,30 @@ export const FeatureCont = styled.div`
 
         & h3{
             padding: 0 15px 15px;
-            margin-bottom: 0;
+            margin: 0;
             font-size: 25px;
-            font-weight: 400;
-            color: ${(props) => props.theme.colors.darkblack};
+            font-weight: 600;
+            color: #333;
+            /* line-height: 30px; */
+            /* color: ${({ theme }) => theme.colors.darkblack}; */
         }
 
         & a{
             text-decoration: none;
-            color: ${(props) => props.theme.colors.lightblack};    
+            color: ${({ theme }) => theme.colors.lightblack};    
             display: block;
             padding: 0 15px 15px;
         }
 
         & a:hover{
-            color: ${(props) => props.theme.colors.brown}
+            color: ${({ theme }) => theme.colors.brown}
         }
 
         & img{
             max-width: 100%;
             height: auto;
             object-fit: cover;
+            margin-bottom: 20px;
             /* max-height: 350px;
             min-height: 360px;
             aspect-ratio: auto 550 / 376; */
@@ -127,6 +133,12 @@ export const FeatureCont = styled.div`
         & div.cards-border{
             min-width: 165px;
             border: none;
+        }
+
+        & h3{
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
         }
     }
 
