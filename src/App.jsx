@@ -1,6 +1,7 @@
 import { GlobalStyle } from "./styles/GlobalStyles"
 import Home from "./pages/Home"
-// import { ThemeProvider } from "styled-components"
+import { ThemeProvider } from "styled-components"
+import { theme } from "./styles/GlobalStyles"
 
 // const theme = {
 //   colors: {
@@ -19,7 +20,9 @@ function App() {
     //   <Home />
     // </GlobalStyle>
     <>
-      <Home />
+      <ThemeProvider theme={theme}>
+        <Home />
+      </ThemeProvider>
     </>
   )
 }

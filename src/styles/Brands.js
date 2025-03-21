@@ -58,7 +58,7 @@ export const BrandContainer = styled.div`
         /* margin-left: 0; */
     }
 
-    @media(max-width:750px){
+    ${({ theme }) => theme.size.md}{
         &{
             padding:15px;
             background:#f9f9f9;

@@ -105,7 +105,7 @@ export const HeroSection = styled.div`
         border-radius: 10px;
     }
 
-    @media(max-width:750px){
+    ${({ theme }) => theme.size.md}{
         text-align: center;
 
         & article{

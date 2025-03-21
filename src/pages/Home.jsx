@@ -16,30 +16,32 @@ import { theme } from "../styles/GlobalStyles"
 import NavUpper from "../components/NavUpper"
 import ProductSlider from "../components/ProductSlider"
 import ProductSlider2 from "../components/ProductSlider2"
+import HeaderList from "../components/HeaderList"
 
 export default function Home() {
     return (
         <>
-            <ThemeProvider theme={theme}>
-                <MainHome>
-                    <NavUpper />
-                    <Header />
-                    <HomeSlider />
-                    <br />
-                    <FeaturedCategories />
-                    {/* <ProductList /> */}
-                    <ProductSlider />
-                    <Brands />
-                    {/* <NewProduct /> */}
-                    <ProductSlider2 />
-                    <SliderComponent2 />
-                    <Comments />
-                    <Hero />
-                    <Welcome />
-                    <HeroSection2 />
-                    <Footer />
-                </MainHome>
-            </ThemeProvider>
+            {/* <ThemeProvider theme={theme}> */}
+            <MainHome>
+                <NavUpper />
+                <Header />
+                <HeaderList />
+                <HomeSlider />
+                <br />
+                <FeaturedCategories />
+                {/* <ProductList /> */}
+                <ProductSlider />
+                <Brands />
+                {/* <NewProduct /> */}
+                <ProductSlider2 />
+                <SliderComponent2 />
+                <Comments />
+                <Hero />
+                <Welcome />
+                <HeroSection2 />
+                <Footer />
+            </MainHome>
+            {/* </ThemeProvider> */}
         </>
     )
 }

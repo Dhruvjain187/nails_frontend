@@ -50,7 +50,7 @@ export const WelcomeCont = styled.ul`
         font-weight: 400;
     }
 
-    @media(max-width: 750px){
+    ${({ theme }) => theme.size.md}{
         overflow-x: auto;
         text-align: start;
  
