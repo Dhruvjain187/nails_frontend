@@ -35,7 +35,7 @@ margin-bottom:10px;
     font-size: 26px !important;
 } */
 
-& label{
+& div.close{
     display: none;
 }
 
@@ -46,7 +46,7 @@ margin-bottom:10px;
 
 
 & .close{
-    display: none;
+    /* display: none; */
     width: 15%;
 }
 
@@ -60,7 +60,7 @@ ${({ theme }) => theme.size.md_lg}{
         display: block !important;
     } */
 
-    & label{
+    & div.close{
         display: block;
     }
 
@@ -83,6 +83,7 @@ ${({ theme }) => theme.size.md_lg}{
         display: flex;
         flex-direction: row;
         left: 0;
+        opacity: 1;
         right: 0;
         top: 0;
         bottom: 0;
@@ -474,10 +475,14 @@ box-shadow:0 4px 12px 0 rgba(0,0,0,.1);
 
             }
 
+            /* here */
             &{
-            display: none;
+                opacity: 0;
+                /* top: 0; */
+            /* display: none; */
             position: fixed;
             left: -100%;
+            transition: all 0.2s ease-in;
          
         
             nav{
