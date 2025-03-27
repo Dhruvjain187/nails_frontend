@@ -11,4 +11,26 @@ export const SliderComponentStyle = styled.div`
             height: auto;
         }
     }
+
+
+
+    ${({ theme }) => theme.size.md}{
+        & .img-con{
+            img{
+                border-radius: 12px;
+            }
+        }        
+
+        & .slick-slider{
+            width: 100%;
+        }
+
+        & .slick-track{
+            display: flex;            
+        }
+
+        & .slick-slide{
+            padding: 0 5px 0 5px;
+        }
+}
 `

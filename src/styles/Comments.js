@@ -40,6 +40,7 @@ export const CommentContainer = styled.div`
     & .comment{
         max-width: 100%;
         border-radius: 10px;
+        box-sizing: border-box;
         border: 2px solid #ffebed;
 
         & h3{
@@ -60,8 +61,45 @@ export const CommentContainer = styled.div`
         padding: 15px;
         line-height: 1.42857143;
     }
+
     }
 
+    & .slick-dots{
+       position: static !important;
+
+       & li{
+            height: 14px;
+            /* width: 14px !important; */
+            width:14px !important;
+            margin: 0 5px;
+       }
+
+       & li.slick-active{
+            width: 32px !important;
+       }
+
+       & li.slick-active button{
+            background:${({ theme }) => theme.colors.pinkish} ;
+            width: 32px;
+            height: 14px;
+            padding: 0;
+            border-radius: 5px;
+            border: ${({ theme }) => `1px solid ${theme.colors.pinkish}`};
+       }
+
+       & li button{
+            padding: 0;
+            height:14px;
+            width:14px;
+            border-radius:50%;
+            background:${({ theme }) => theme.colors.white};
+            border:1px solid #707070;
+       }
+
+       & li button::before{
+            display:none
+       }
+    }
 
     @media(max-width: 780px){
         & header{

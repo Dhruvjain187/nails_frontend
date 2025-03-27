@@ -18,7 +18,7 @@ export const HeroSection = styled.div`
     & h2{
         line-height: 1.1;
         font-size: 25px;
-        margin: 10px 0;
+        margin: 20px 0;
         font-weight: 700;
         color:${({ theme }) => theme.colors.darkblack};
     }
@@ -118,6 +118,7 @@ export const HeroSection = styled.div`
 
         & h2{
             font-size: 20px;
+            margin: 10px 0;
         }
 
         & footer{

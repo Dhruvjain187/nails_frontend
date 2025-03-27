@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 export default function Comments() {
     const settings = {
-        dots: false,
+        dots: true,
         infinite: false,
         speed: 500,
         slidesToShow: 3,
@@ -20,7 +20,7 @@ export default function Comments() {
                 settings: {
                     slidesToShow: 3,
                     slidesToScroll: 3,
-                    infinite: true,
+                    infinite: false,
                     dots: true
                 }
             },
@@ -29,8 +29,8 @@ export default function Comments() {
                 settings: {
                     slidesToShow: 3,
                     slidesToScroll: 3,
-                    infinite: true,
-                    dots: false
+                    infinite: false,
+                    dots: true
                 }
             },
             {
@@ -39,7 +39,7 @@ export default function Comments() {
                     slidesToShow: 2,
                     slidesToScroll: 2,
                     initialSlide: 2,
-                    infinite: true,
+                    infinite: false,
                 }
             },
             {
@@ -47,7 +47,7 @@ export default function Comments() {
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
-                    infinite: true,
+                    infinite: false,
                 }
             }
         ]
@@ -62,46 +62,34 @@ export default function Comments() {
                 </header>
                 <div className="slider-container">
                     <Slider {...settings} >
-                        <div className="comment-margin">
-                            <div className="comment">
-                                <h3>Kinsey Vess</h3>
-                                <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
-                            </div>
+                        <div className="comment">
+                            <h3>Kinsey Vess</h3>
+                            <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
                         </div>
 
-                        <div className="comment-margin">
-                            <div className="comment">
-                                <h3>piscesboy76</h3>
-                                <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
-                            </div>
+                        <div className="comment">
+                            <h3>piscesboy76</h3>
+                            <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
                         </div>
 
-                        <div className="comment-margin">
-                            <div className="comment">
-                                <h3>Rosa Ivette Nieves</h3>
-                                <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
-                            </div>
+                        <div className="comment">
+                            <h3>Rosa Ivette Nieves</h3>
+                            <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
                         </div>
 
-                        <div className="comment-margin">
-                            <div className="comment">
-                                <h3>Rosa Ivette Nieves</h3>
-                                <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
-                            </div>
+                        <div className="comment">
+                            <h3>Rosa Ivette Nieves</h3>
+                            <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
                         </div>
 
-                        <div className="comment-margin">
-                            <div className="comment">
-                                <h3>Bella Bella</h3>
-                                <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
-                            </div>
+                        <div className="comment">
+                            <h3>Bella Bella</h3>
+                            <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
                         </div>
 
-                        <div className="comment-margin">
-                            <div className="comment">
-                                <h3>Kinsey </h3>
-                                <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
-                            </div>
+                        <div className="comment">
+                            <h3>Kinsey </h3>
+                            <p>I loved this store. Owner is very helpful. Lots of Goodies n Good Customer Skills</p>
                         </div>
                     </Slider>
                 </div>

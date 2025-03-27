@@ -177,7 +177,9 @@ ${({ theme }) => theme.size.md_lg}{
 `
 
 export const Header1 = styled.div`
-padding: 12px 17px;
+/* padding: 12px 17px; */
+padding: 10px 15px;
+
 display: flex;
 justify-content: space-around;
 align-items: center;
@@ -231,9 +233,10 @@ input[type="text"]{
     } */
 }
 
-/* input[type="checkbox"]{
-    display: none;
-} */
+& .login-a{
+    color: ${({ theme }) => theme.colors.black};
+    text-decoration: none;
+}
 
 @media(max-width:1115px){
     justify-content: space-between;
@@ -477,8 +480,8 @@ box-shadow:0 4px 12px 0 rgba(0,0,0,.1);
 
             /* here */
             &{
-                opacity: 0;
-                /* top: 0; */
+            opacity: 0;
+            /* top: 0; */
             /* display: none; */
             position: fixed;
             left: -100%;

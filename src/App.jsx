@@ -1,27 +1,31 @@
-import { GlobalStyle } from "./styles/GlobalStyles"
 import Home from "./pages/Home"
 import { ThemeProvider } from "styled-components"
 import { theme } from "./styles/GlobalStyles"
-
-// const theme = {
-//   colors: {
-//     primary: "#ebfbff",
-//     secondary: "#fff",
-//     tertiary: "#003333"
-//   }
-// }
+import HeaderFooterWrapper from "./pages/HeaderFooterWrapper";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Link,
+  createRoutesFromElements,
+} from "react-router-dom";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 
 function App() {
-
+  const router = createBrowserRouter(createRoutesFromElements(
+    <Route path="/" element={<HeaderFooterWrapper />}>
+      <Route path="" element={<Home />} />
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<SignUp />} />
+    </Route>
+  ))
 
 
   return (
-    // <GlobalStyle theme={theme}>
-    //   <Home />
-    // </GlobalStyle>
     <>
       <ThemeProvider theme={theme}>
-        <Home />
+        <RouterProvider router={router} />
       </ThemeProvider>
     </>
   )

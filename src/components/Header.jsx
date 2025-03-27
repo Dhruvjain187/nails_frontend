@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { MainHeader, Header1, Header2, NavAnchor, ListAnchor, StickyHeader } from "../styles/Header"
+import { Link } from "react-router";
 
 const initialState = {
     mainMenuOpen: false,
@@ -92,9 +93,9 @@ export default function Header() {
                     {/* <input type="checkbox" id="menu" /> */}
 
                     <Header1 >
-                        <label htmlFor="menu">
-                            <div className="menu" onClick={() => dispatch({ type: "Toggle_Main_Menu" })}><i className="fa-solid fa-bars fa-xl"></i></div>
-                        </label>
+                        {/* <label htmlFor="menu"> */}
+                        <div className="menu" onClick={() => dispatch({ type: "Toggle_Main_Menu" })}><i className="fa-solid fa-bars fa-xl"></i></div>
+                        {/* </label> */}
                         {/* <MenuIcon className="menu-icon" /> */}
                         <div className="image"><img src="https://www.lanailsupplies.com/static/version1740644501/frontend/Cp/lanails/en_US/images/logo_black.png" alt="" /></div>
                         <div className="input">
@@ -110,7 +111,9 @@ export default function Header() {
                             </span>
                         </div>
                         <div className="styled-icons">
-                            <i className="fa-solid fa-user fa-xl"></i>
+                            <Link to={`/login`} className="login-a"><i className="fa-solid fa-user fa-xl"></i>
+                            </Link>
+                            {/* <i className="fa-solid fa-user fa-xl"></i> */}
                             {/* <UserIcon className={"user"} /> */}
                         </div>
                         <div className="styled-icons">
