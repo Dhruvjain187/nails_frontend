@@ -16,7 +16,8 @@ export const theme = {
         pinkish: "#eb4159",
         beige: "#f6f2f1",
         darkblack: "#333",
-        brown: "#8e7069"
+        brown: "#8e7069",
+        blacklt: "#2d2c2c"
     },
 
     size: {

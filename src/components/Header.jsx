@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { MainHeader, Header1, Header2, NavAnchor, ListAnchor, StickyHeader } from "../styles/Header"
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 const initialState = {
     mainMenuOpen: false,
@@ -323,7 +323,7 @@ export default function Header() {
                                 </div>
 
                                 <div className="box collection">
-                                    <NavAnchor colors="#f26a10" onClick={() => dispatch({ type: "Toggle_Submenu", payload: "subMenu3Open" })}><span>Collection</span>
+                                    <NavAnchor as={Link} to={`/collections`} colors="#f26a10" onClick={() => dispatch({ type: "Toggle_Submenu", payload: "subMenu3Open" })}><span>Collection</span>
                                         {/* <i className="fa-solid fa-angle-down fa-sm"></i> */}
                                         {menuState.mainMenuOpen ? <i className="fa-solid fa-angle-right fa-xl"></i> : <i className="fa-solid fa-angle-down fa-sm"></i>}
                                     </NavAnchor>

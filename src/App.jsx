@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import CollectionPage from "./pages/CollectionPage";
 
 function App() {
   const router = createBrowserRouter(createRoutesFromElements(
@@ -18,6 +19,7 @@ function App() {
       <Route path="" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SignUp />} />
+      <Route path="collections" element={<CollectionPage />} />
     </Route>
   ))
 

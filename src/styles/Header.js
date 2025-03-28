@@ -512,6 +512,8 @@ export const NavAnchor = styled.a`
         font-size: 16px;
         cursor: pointer;
         display: block;
+        text-decoration: none;
+        color:${({ theme }) => theme.colors.black}; 
 
         &:hover{
         color:white;
