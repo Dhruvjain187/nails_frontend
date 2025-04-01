@@ -31,7 +31,7 @@ export const BreadCrumbsContainer = styled.div`
 
     & .icon::after{
         content: "";
-        z-index: 11;
+        /* z-index: 11; */
         width: 6px;
         height: 6px;
         border-top: 1px solid #2d2c2c;

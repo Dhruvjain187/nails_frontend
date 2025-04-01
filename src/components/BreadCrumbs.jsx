@@ -6,7 +6,7 @@ export default function BreadCrumbs() {
             <BreadCrumbsContainer>
                 <ul>
                     <li className="icon">
-                        <Link>
+                        <Link to={`/`}>
                             <i className="fa-solid fa-house fa-xl"></i>
                         </Link>
                     </li>
