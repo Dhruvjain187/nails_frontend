@@ -7,7 +7,7 @@ export const CategoryBar = styled.div`
     margin-bottom: 20px;
     height: 76vh;
     vertical-align: top;
-    top: 0px;
+    top: 120px;
     overflow: hidden;
     /* display: inline-block; */
 

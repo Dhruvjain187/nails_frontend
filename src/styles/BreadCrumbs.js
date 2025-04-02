@@ -27,6 +27,10 @@ export const BreadCrumbsContainer = styled.div`
         border-radius: 5px;
         /* background: #f6f2f1; */
         display: block;
+
+        i{
+            color: #333;
+        }
     }
 
     & .icon::after{

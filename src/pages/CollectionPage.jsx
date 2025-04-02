@@ -9,13 +9,14 @@ import { CardContainer } from "../styles/CardContainer"
 import Button from "../components/Button"
 import { Link } from "react-router-dom"
 import { useFetchAllProductQuery } from "../Redux/Api/productApi"
+import PriceRange from "../components/PriceRange"
 
 const initialState = {
     filter: false,
     product1: true,
-    product2: false,
     product3: false,
-    product4: false
+    product4: false,
+    product5: false
 }
 
 function productReducer(state, action) {
@@ -30,9 +31,9 @@ function productReducer(state, action) {
             return {
                 ...state,
                 product1: false,
-                product2: false,
                 product3: false,
                 product4: false,
+                product5: false,
                 [action.payload]: !state[action.payload]
             };
         case "Close_All":
@@ -41,7 +42,8 @@ function productReducer(state, action) {
                 product1: true,
                 product2: false,
                 product3: false,
-                product4: false
+                product4: false,
+                product5: false
             }
         default:
             return state;
@@ -87,17 +89,20 @@ export default function CollectionPage() {
                             </li>
                         </ul>
 
-                        <div className="title">
+                        <div className="title" onClick={() => dispatch({ type: "Toggle_Product", payload: "product2" })}>
                             <div>Price</div>
                             <i className="fa-solid fa-angle-down fa-sm"></i>
                         </div>
+                        <ul className={productState.product2 ? `content` : `content-none`}>
+                            <PriceRange />
+                        </ul>
 
-                        <div className="title" onClick={() => dispatch({ type: "Toggle_Product", payload: "product2" })}>
+                        <div className="title" onClick={() => dispatch({ type: "Toggle_Product", payload: "product3" })}>
                             <div>Brand</div>
                             <i className="fa-solid fa-angle-down fa-sm"></i>
                         </div>
 
-                        <ul className={productState.product2 ? `content` : `content-none`}>
+                        <ul className={productState.product3 ? `content` : `content-none`}>
                             <li>
                                 <input type="checkbox" />
                                 <span>American Terry Mills</span>
@@ -117,12 +122,12 @@ export default function CollectionPage() {
                             <i className="fa-solid fa-angle-down fa-sm"></i>
                         </div>
 
-                        <div className="title" onClick={() => dispatch({ type: "Toggle_Product", payload: "product3" })}>
+                        <div className="title" onClick={() => dispatch({ type: "Toggle_Product", payload: "product4" })}>
                             <div>Rating</div>
                             <i className="fa-solid fa-angle-down fa-sm"></i>
                         </div>
 
-                        <ul className={productState.product3 ? `content` : `content-none`} >
+                        <ul className={productState.product4 ? `content` : `content-none`} >
                             <li>
                                 <input type="checkbox" />
                                 <span>5 Stars</span>
@@ -133,12 +138,12 @@ export default function CollectionPage() {
                             </li>
                         </ul>
 
-                        <div className="title" onClick={() => dispatch({ type: "Toggle_Product", payload: "product4" })}>
+                        <div className="title" onClick={() => dispatch({ type: "Toggle_Product", payload: "product5" })}>
                             <div>Stock</div>
                             <i className="fa-solid fa-angle-down fa-sm"></i>
                         </div>
 
-                        <ul className={productState.product4 ? `content` : `content-none`}>
+                        <ul className={productState.product5 ? `content` : `content-none`}>
                             <li>
                                 <input type="checkbox" />
                                 <span>In Stock</span>
@@ -157,7 +162,7 @@ export default function CollectionPage() {
                     <UpperProductContainer>
                         <h1>Collections</h1>
 
-                        <div className="total-products">Total Products <strong>11877</strong></div>
+                        <div className="total-products">Total Products <strong>{data.count}</strong></div>
 
                         <strong className="filter-strong"
                             onClick={() => dispatch({ type: "Filter", payload: "filter" })}>
@@ -180,7 +185,7 @@ export default function CollectionPage() {
 
                     {/* {isLoading ? console.log("not fetched") : console.log(data)} */}
                     <CardContainer>
-                        {data.map((el, idx) => {
+                        {data.product.map((el, idx) => {
                             return <Card key={idx}>
                                 <div className="list-img">
                                     <div className="inner-pad">
@@ -214,14 +219,13 @@ export default function CollectionPage() {
                             </Card>
                         })}
                     </CardContainer>
-
                 </ProductContainer>
             </CollectionPageContainer>
         </>
     )
 }
 
-
+{/* <PriceRange /> */ }
 {/* <Card>
     <div className="list-img">
         <div className="inner-pad">
