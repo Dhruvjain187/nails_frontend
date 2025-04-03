@@ -10,6 +10,7 @@ import Button from "../components/Button"
 import { Link } from "react-router-dom"
 import { useFetchAllProductQuery } from "../Redux/Api/productApi"
 import PriceRange from "../components/PriceRange"
+import Paginate from "../components/Paginate"
 
 const initialState = {
     filter: false,
@@ -31,6 +32,7 @@ function productReducer(state, action) {
             return {
                 ...state,
                 product1: false,
+                product2: false,
                 product3: false,
                 product4: false,
                 product5: false,
@@ -219,6 +221,7 @@ export default function CollectionPage() {
                             </Card>
                         })}
                     </CardContainer>
+                    <Paginate />
                 </ProductContainer>
             </CollectionPageContainer>
         </>
