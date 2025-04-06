@@ -118,6 +118,9 @@ export default function Header() {
                         </div>
                         <div className="styled-icons">
                             <i className="fa-solid fa-bag-shopping fa-xl"></i>
+                            <span className="store-circle">
+                                <span>0</span>
+                            </span>
                             {/* <StoreIcon className={"store"} /> */}
                         </div>
                     </Header1>

@@ -194,6 +194,31 @@ margin-bottom: 7px;
     font-size: 15px;
 }
 
+& .styled-icons{
+    position: relative;
+}
+
+& .store-circle{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    top: 10px;
+    right: -10px;
+    font-size: 11px;
+    color: ${({ theme }) => theme.colors.white};
+    text-align: center;
+    margin: 3px 0 0;
+    min-width: 18px;
+    background: ${({ theme }) => theme.colors.black};
+
+    & span{
+        width: 100%;
+    }
+}
+
 img{
     height: 37.09px;
     aspect-ratio: auto 220 / 37;

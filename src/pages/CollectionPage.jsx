@@ -11,6 +11,8 @@ import { Link } from "react-router-dom"
 import { useFetchAllProductQuery } from "../Redux/Api/productApi"
 import PriceRange from "../components/PriceRange"
 import Paginate from "../components/Paginate"
+import { useSelector } from "react-redux"
+import { PaginateProductBasedOnNumber } from "../styles/PaginateProductBasedOnNumber"
 
 const initialState = {
     filter: false,
@@ -55,7 +57,11 @@ function productReducer(state, action) {
 export default function CollectionPage() {
     const [productState, dispatch] = useReducer(productReducer, initialState);
     // console.log(initialState)
-    const { data, error, isSuccess, isLoading } = useFetchAllProductQuery()
+
+    // const filterData = useSelector(state => state.filter);
+    const { page } = useSelector(state => state.filter);
+
+    const { data, error, isSuccess, isLoading } = useFetchAllProductQuery({ page })
     console.log(data)
 
     if (isLoading) {
@@ -221,7 +227,21 @@ export default function CollectionPage() {
                             </Card>
                         })}
                     </CardContainer>
-                    <Paginate />
+
+                    {/* productsPerPage */}
+                    <PaginateProductBasedOnNumber>
+                        <Paginate pages={data.pages} />
+                        <div className="page-container">
+                            <span>Show</span>
+                            <select name="itemsperpage" id="">
+                                <option value="24">24</option>
+                                <option value="48">48</option>
+                                <option value="72">72</option>
+                                <option value="96">96</option>
+                            </select>
+                            <span>per page</span>
+                        </div>
+                    </PaginateProductBasedOnNumber>
                 </ProductContainer>
             </CollectionPageContainer>
         </>
