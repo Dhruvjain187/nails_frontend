@@ -70,11 +70,11 @@ export default function Header() {
     // }
 
     const [menuState, dispatch] = useReducer(menuReducer, initialState);
-    console.log("hello")
+    // console.log("hello")
 
 
     useEffect(() => {
-        console.log("hi2")
+        // console.log("hi2")
         if (menuState.mainMenuOpen) {
             document.body.style.overflowY = "hidden"
         }

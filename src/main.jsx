@@ -7,10 +7,12 @@ import { store } from './Redux/store.js'
 import { Provider } from "react-redux"
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
+  <>
     <GlobalStyle />
     <Provider store={store}>
       <App />
     </Provider>
-  </StrictMode>,
+  </>
+  // </StrictMode>,
 )

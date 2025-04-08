@@ -7,12 +7,13 @@ import { UpperProductContainer } from "../styles/Products"
 import { Card } from "../styles/Card"
 import { CardContainer } from "../styles/CardContainer"
 import Button from "../components/Button"
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useFetchAllProductQuery } from "../Redux/Api/productApi"
 import PriceRange from "../components/PriceRange"
 import Paginate from "../components/Paginate"
 import { useSelector } from "react-redux"
 import { PaginateProductBasedOnNumber } from "../styles/PaginateProductBasedOnNumber"
+import { useState } from "react"
 
 const initialState = {
     filter: false,
@@ -57,18 +58,77 @@ function productReducer(state, action) {
 export default function CollectionPage() {
     const [productState, dispatch] = useReducer(productReducer, initialState);
     // console.log(initialState)
+    const navigate = useNavigate();
+    const location = useLocation()
+    const searchParams = new URLSearchParams(location.search)
+    const [selectedFilters, setSelectedFilters] = useState({
+        category: searchParams.get("category") || null,
+        priceRange: searchParams.get("price") || null,
+        brand: searchParams.get("brand") || null,
+        page: searchParams.get("page") || 1,
+        pageSize: searchParams.get("pageSize") || 24
+    });
 
     // const filterData = useSelector(state => state.filter);
-    const { page } = useSelector(state => state.filter);
+    // const { page } = useSelector(state => state.filter);
 
-    const { data, error, isSuccess, isLoading } = useFetchAllProductQuery({ page })
-    console.log(data)
 
-    if (isLoading) {
-        return <>
-            <div>loading...</div>
-        </>
+    const { data, error, isSuccess, isFetching, isLoading } = useFetchAllProductQuery({
+        pageSize: selectedFilters.pageSize,
+        page: selectedFilters.page,
+        category: selectedFilters.category,
+        brand: selectedFilters.brand,
+    })
+    // console.log(data, selectedFilters)
+
+
+    const updateFilter = (e) => {
+        const { name, value } = e.target;
+        // console.log(name, value)
+        const newParams = new URLSearchParams(searchParams);
+        // const existingCategoryValue = searchParams.get("category")
+        const existingCategoryValue = searchParams.get(name)
+        newParams.delete("page")
+        if (value === existingCategoryValue) {
+            // newParams.set(filterName, value);
+            newParams.delete(name);
+            setSelectedFilters((prev) => {
+                return { ...prev, [name]: null, page: 1 }
+            })
+
+        } else {
+            newParams.set(name, value);
+            console.log(newParams)
+            // newParams.delete(filterName);
+            console.log("1 render")
+            setSelectedFilters((prev) => (
+                { ...prev, [name]: value, page: 1 })
+            )
+        }
+
+        // console.log(newParams.get("category"))
+        console.log("2 render")
+        navigate(`?${newParams.toString()}`, { replace: true }); // replaces instead of pushing new history entry
+    };
+
+    const updatePageSize = (e) => {
+        const { name, value } = e.target;
+        console.log("name& value", name, value)
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set(name, value)
+        newParams.delete("page")
+        setSelectedFilters((prev) => {
+            return { ...prev, pageSize: Number(value), page: 1 }
+        })
+        navigate(`?${newParams.toString()}`, { replace: true }); // replaces instead of pushing new history entry
     }
+
+    if (isLoading) return <div>Loading initial data...</div>;
+    if (isFetching) return <div>Updating with new filter...</div>;
+    if (!data) return <div>No products found</div>;
+    console.log(isLoading, "3 render")
+
+    console.log("rerender")
     return (
         <>
             <BreadCrumbs />
@@ -84,15 +144,22 @@ export default function CollectionPage() {
                         </div>
                         <ul className={productState.product1 ? `content` : `content-none`}>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" name="category"
+                                    checked={searchParams.get("category") === "Glitter"}
+                                    value="Glitter" onChange={(e) => updateFilter(e)} />
+
                                 <span>Glitter</span>
                             </li>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" name="category"
+                                    checked={searchParams.get("category") === "Jelly"}
+                                    value="Jelly" onChange={(e) => updateFilter(e)} />
                                 <span>Jelly</span>
                             </li>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" name="category"
+                                    checked={searchParams.get("category") === "Light & Shadow Sheer"}
+                                    value="Light & Shadow Sheer" onChange={(e) => updateFilter(e)} />
                                 <span>Light & Shadow Sheer</span>
                             </li>
                         </ul>
@@ -112,15 +179,22 @@ export default function CollectionPage() {
 
                         <ul className={productState.product3 ? `content` : `content-none`}>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" name="brand"
+                                    checked={searchParams.get("brand") === "American Terry Mills"}
+                                    value="American Terry Mills" onChange={(e) => updateFilter(e)} />
                                 <span>American Terry Mills</span>
                             </li>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" name="brand"
+                                    checked={searchParams.get("brand") === "Apres"}
+                                    value="Apres" onChange={(e) => updateFilter(e)} />
                                 <span>Apres</span>
                             </li>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" name="brand"
+                                    checked={searchParams.get("brand") === "Aurelia Gloves"}
+                                    value="Aurelia Gloves" onChange={(e) => updateFilter(e)} />
+
                                 <span>Aurelia Gloves</span>
                             </li>
                         </ul>
@@ -170,7 +244,7 @@ export default function CollectionPage() {
                     <UpperProductContainer>
                         <h1>Collections</h1>
 
-                        <div className="total-products">Total Products <strong>{data.count}</strong></div>
+                        <div className="total-products">Total Products <strong>{data?.count}</strong></div>
 
                         <strong className="filter-strong"
                             onClick={() => dispatch({ type: "Filter", payload: "filter" })}>
@@ -191,9 +265,8 @@ export default function CollectionPage() {
                         </div>
                     </UpperProductContainer>
 
-                    {/* {isLoading ? console.log("not fetched") : console.log(data)} */}
                     <CardContainer>
-                        {data.product.map((el, idx) => {
+                        {data?.product.map((el, idx) => {
                             return <Card key={idx}>
                                 <div className="list-img">
                                     <div className="inner-pad">
@@ -230,14 +303,14 @@ export default function CollectionPage() {
 
                     {/* productsPerPage */}
                     <PaginateProductBasedOnNumber>
-                        <Paginate pages={data.pages} />
+                        <Paginate pages={data?.pages} page={selectedFilters.page} setSelectedFilters={setSelectedFilters} />
                         <div className="page-container">
                             <span>Show</span>
-                            <select name="itemsperpage" id="">
-                                <option value="24">24</option>
-                                <option value="48">48</option>
-                                <option value="72">72</option>
-                                <option value="96">96</option>
+                            <select name="pageSize" id="" value={selectedFilters.pageSize} onChange={(e) => updatePageSize(e)}>
+                                <option value="24" >24</option>
+                                <option value="48" >48</option>
+                                <option value="72" >72</option>
+                                <option value="96" >96</option>
                             </select>
                             <span>per page</span>
                         </div>

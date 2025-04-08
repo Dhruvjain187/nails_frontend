@@ -5,10 +5,13 @@ export const productApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         fetchAllProduct: builder.query({
             // query: () => `${PRODUCT_URL}`
-            query: ({ page = 1 }) => {
+            query: ({ pageSize, page, category = "", brand = "" }) => {
                 const params = new URLSearchParams();
 
                 params.append('page', page);
+                params.append('category', category);
+                params.append('brand', brand);
+                params.append('pageSize', pageSize);
 
                 return {
                     url: `${PRODUCT_URL}?${params.toString()}`,
