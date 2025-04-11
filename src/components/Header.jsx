@@ -1,8 +1,13 @@
 import { useEffect, useReducer } from "react";
 import { MainHeader, Header1, Header2, NavAnchor, ListAnchor, StickyHeader } from "../styles/Header"
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useRef } from "react";
+import { deleteFromCart, totalProductCost } from "../Redux/Slices/cartSlice";
+import { useDispatch } from "react-redux";
 
 const initialState = {
+    cart: false,
     mainMenuOpen: false,
     subMenu1Open: false,
     subMenu2Open: false,
@@ -14,6 +19,7 @@ function menuReducer(state, action) {
         case "Toggle_Main_Menu":
             return {
                 ...state,
+                cart: false,
                 mainMenuOpen: !state.mainMenuOpen
             };
         case "Toggle_Submenu":
@@ -23,6 +29,11 @@ function menuReducer(state, action) {
             };
         case "Close_All":
             return initialState
+        case "Toggle_Cart":
+            return {
+                ...state,
+                [action.payload]: !state[action.payload]
+            }
         default:
             return state;
     }
@@ -69,32 +80,53 @@ export default function Header() {
     //     )
     // }
 
-    const [menuState, dispatch] = useReducer(menuReducer, initialState);
+    const [menuState, localdispatch] = useReducer(menuReducer, initialState);
     // console.log("hello")
 
+    const { userData } = useSelector((state) => state.auth)
+    // console.log("userdata=", userData)
+    // const navRef = useRef(null);
+    const { cartItems, totalCost } = useSelector((state) => state.cart);
+    // console.log(cartItems)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        // console.log("hi2")
+        console.log("hi2")
+        // const handleClickOutside = (event) => {
+        //     if (navRef.current && !navRef.current.contains(event.target)) {
+        //         localdispatch({ type: 'Close_All' });
+        //     }
+        // };
+
+        // if (menuState.cart) {
+        //     document.addEventListener('mousedown', handleClickOutside);
+        // }
+
         if (menuState.mainMenuOpen) {
             document.body.style.overflowY = "hidden"
         }
         return () => {
             document.body.style.overflowY = "auto"
-
+            // document.removeEventListener('mousedown', handleClickOutside);
         }
     }
-        , [menuState.mainMenuOpen]
+        , [
+            menuState.mainMenuOpen,
+            // menuState.cart
+        ]
     )
 
     return (
         <>
             <StickyHeader>
-                <MainHeader >
+                <MainHeader
+                // ref={navRef}
+                >
                     {/* <input type="checkbox" id="menu" /> */}
 
                     <Header1 >
                         {/* <label htmlFor="menu"> */}
-                        <div className="menu" onClick={() => dispatch({ type: "Toggle_Main_Menu" })}><i className="fa-solid fa-bars fa-xl"></i></div>
+                        <div className="menu" onClick={() => localdispatch({ type: "Toggle_Main_Menu" })}><i className="fa-solid fa-bars fa-xl"></i></div>
                         {/* </label> */}
                         {/* <MenuIcon className="menu-icon" /> */}
                         <div className="image"><img src="https://www.lanailsupplies.com/static/version1740644501/frontend/Cp/lanails/en_US/images/logo_black.png" alt="" /></div>
@@ -111,16 +143,86 @@ export default function Header() {
                             </span>
                         </div>
                         <div className="styled-icons">
-                            <Link to={`/login`} className="login-a"><i className="fa-solid fa-user fa-xl"></i>
+                            <Link to={userData ? `/` : `/login`} className="login-a"><i className="fa-solid fa-user fa-xl"></i>
                             </Link>
                             {/* <i className="fa-solid fa-user fa-xl"></i> */}
                             {/* <UserIcon className={"user"} /> */}
                         </div>
                         <div className="styled-icons">
-                            <i className="fa-solid fa-bag-shopping fa-xl"></i>
+                            <i className="fa-solid fa-bag-shopping fa-xl"
+                                onClick={() => localdispatch({ type: "Toggle_Cart", payload: "cart" })}
+                            ></i>
                             <span className="store-circle">
                                 <span>0</span>
                             </span>
+                            <div className={menuState.cart ? `shopping-cart` : `display-none`}>
+                                <div className="cart-title">
+                                    <div className="relative-title">
+                                        <div className="align-angle">
+                                            <i className="fa-solid fa-angle-left fa-xl"
+                                                onClick={() => localdispatch({ type: "Toggle_Cart", payload: "cart" })}
+                                            ></i>
+                                        </div>
+                                        <strong>Minicart</strong>
+                                    </div>
+                                    {cartItems.length > 0 ?
+                                        <>
+                                            <div className="items-wrapper">
+                                                <ul className="wrapper-ul">
+                                                    {cartItems.map((el, idx) => (
+                                                        <li className="product-item" key={idx}>
+                                                            {/* {el.name} */}
+
+                                                            <div className="product-item-container">
+                                                                <Link className="product-item-img">
+                                                                    <img src={el.image} alt="" />
+                                                                </Link>
+                                                                <div className="product-item-details">
+                                                                    <strong>
+                                                                        <Link>{el.name}</Link>
+                                                                    </strong>
+                                                                    <div className="price-container">
+                                                                        <span className="price">${el.price}</span>
+                                                                    </div>
+                                                                    <div className="qty-action">
+                                                                        <div className="qty">
+                                                                            <label htmlFor="qty" >Qty</label>
+                                                                            <input type="number" id="qty" value={el.quantity} />
+                                                                        </div>
+                                                                        <div className="deleteandediticons">
+                                                                            <Link className="edit"
+                                                                                to={`/collections`}>
+                                                                                <i className="fa-solid fa-pen-to-square"></i>
+                                                                            </Link>
+                                                                            <Link className="delete"
+                                                                                to={`/collections`}
+                                                                                onClick={() => {
+                                                                                    dispatch(deleteFromCart(el));
+                                                                                    dispatch(totalProductCost())
+                                                                                }}>
+                                                                                <i className="fa-solid fa-trash fa-lg"></i>
+                                                                            </Link>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </>
+                                        :
+                                        <>
+                                            <strong className="empty-cart">You have no items in your shopping cart.</strong>
+                                        </>
+                                    }
+                                </div>
+                                {cartItems.length > 0 && <div className="subtotal">
+                                    <span>Cart Subtotal:</span>
+                                    <span>${totalCost.toFixed(2)}</span>
+                                </div>}
+                            </div>
                             {/* <StoreIcon className={"store"} /> */}
                         </div>
                     </Header1>
@@ -132,21 +234,21 @@ export default function Header() {
                             <div className="box mobile">
                                 <NavAnchor className="exception-a">
                                     <div className="mobile-img"><img src="https://media.lanailsupplies.com/wysiwyg/logo.webp" alt="" /></div>
-                                    <span className="close-btn" onClick={() => dispatch({ type: "Close_All" })}><i className="fa-solid fa-xmark fa-xl"></i></span>
+                                    <span className="close-btn" onClick={() => localdispatch({ type: "Close_All" })}><i className="fa-solid fa-xmark fa-xl"></i></span>
                                 </NavAnchor>
                             </div>
                             {/* different */}
 
                             <div className="new-cont">
                                 <div className="box shop-a">
-                                    <NavAnchor id="shop" colors="#8e7069" onClick={() => dispatch({ type: "Toggle_Submenu", payload: "subMenu1Open" })}><span>Shop</span>
+                                    <NavAnchor id="shop" colors="#8e7069" onClick={() => localdispatch({ type: "Toggle_Submenu", payload: "subMenu1Open" })}><span>Shop</span>
                                         {/* <i className="fa-solid fa-angle-down fa-sm"></i> */}
                                         {menuState.mainMenuOpen ? <i className="fa-solid fa-angle-right fa-xl"></i> : <i className="fa-solid fa-angle-down fa-sm"></i>}
                                     </NavAnchor>
                                     <ul className={menuState.subMenu1Open ? `shop block` : `shop`}>
                                         <li>
                                             <div className="exception-back-div">
-                                                <ListAnchor className="Back" onClick={() => dispatch({ type: "Toggle_Submenu", payload: "subMenu1Open" })}>
+                                                <ListAnchor className="Back" onClick={() => localdispatch({ type: "Toggle_Submenu", payload: "subMenu1Open" })}>
                                                     <i className="fa-solid fa-angle-left fa-lg"></i>
                                                     <span>Back</span>
                                                 </ListAnchor>
@@ -299,14 +401,14 @@ export default function Header() {
                                 </div>
 
                                 <div className="box best">
-                                    <NavAnchor colors="#0db7af" onClick={() => dispatch({ type: "Toggle_Submenu", payload: "subMenu2Open" })} ><span>Best Seller</span>
+                                    <NavAnchor colors="#0db7af" onClick={() => localdispatch({ type: "Toggle_Submenu", payload: "subMenu2Open" })} ><span>Best Seller</span>
                                         {/* <i className="fa-solid fa-angle-down fa-sm"></i> */}
                                         {menuState.mainMenuOpen ? <i className="fa-solid fa-angle-right fa-xl"></i> : <i className="fa-solid fa-angle-down fa-sm"></i>}
                                     </NavAnchor>
                                     <ul className={menuState.subMenu2Open ? `shop best-shop block` : `shop best-shop`}>
                                         <li>
                                             <div className="exception-back-div">
-                                                <ListAnchor className="Back" onClick={() => dispatch({ type: "Toggle_Submenu", payload: "subMenu2Open" })}>
+                                                <ListAnchor className="Back" onClick={() => localdispatch({ type: "Toggle_Submenu", payload: "subMenu2Open" })}>
                                                     <i className="fa-solid fa-angle-left fa-lg"></i>
                                                     <span>Back</span>
                                                 </ListAnchor>
@@ -326,14 +428,14 @@ export default function Header() {
                                 </div>
 
                                 <div className="box collection">
-                                    <NavAnchor as={Link} to={`/collections`} colors="#f26a10" onClick={() => dispatch({ type: "Toggle_Submenu", payload: "subMenu3Open" })}><span>Collection</span>
+                                    <NavAnchor as={Link} to={`/collections`} colors="#f26a10" onClick={() => localdispatch({ type: "Toggle_Submenu", payload: "subMenu3Open" })}><span>Collection</span>
                                         {/* <i className="fa-solid fa-angle-down fa-sm"></i> */}
                                         {menuState.mainMenuOpen ? <i className="fa-solid fa-angle-right fa-xl"></i> : <i className="fa-solid fa-angle-down fa-sm"></i>}
                                     </NavAnchor>
                                     <ul className={menuState.subMenu3Open ? `shop collectionul block` : `shop collectionul`}>
                                         <li>
                                             <div className="exception-back-div">
-                                                <ListAnchor className="Back" onClick={() => dispatch({ type: "Toggle_Submenu", payload: "subMenu3Open" })}>
+                                                <ListAnchor className="Back" onClick={() => localdispatch({ type: "Toggle_Submenu", payload: "subMenu3Open" })}>
                                                     <i className="fa-solid fa-angle-left fa-lg"></i>
                                                     <span>Back</span>
                                                 </ListAnchor>
@@ -464,8 +566,8 @@ export default function Header() {
                         </nav>
 
                         {/* here also change it when u are done changing other things */}
-                        <div className="close" onClick={() => dispatch({ type: "Close_All" })}></div>
-                        {/* <label className="close" htmlFor="menu" onClick={() => dispatch({ type: "Close_All" })}></label> */}
+                        <div className="close" onClick={() => localdispatch({ type: "Close_All" })}></div>
+                        {/* <label className="close" htmlFor="menu" onClick={() => localdispatch({ type: "Close_All" })}></label> */}
                     </Header2>
 
 

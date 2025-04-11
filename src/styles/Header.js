@@ -198,11 +198,231 @@ margin-bottom: 7px;
     position: relative;
 }
 
+
+& .fa-bag-shopping{
+    position: relative;
+    z-index: 40 !important;
+}
+
+& .display-none{
+    display: none;
+}
+
+& .shopping-cart{
+    position: absolute;
+    text-align: center;
+    padding: 25px 20px 0;
+    top: -24px;
+    right: -15px;
+    width: 430px;
+    box-shadow: 0 3px 3px rgba(0,0,0,.15);
+    border-radius: 15px;
+    border: 1px solid #ddd;
+    z-index: 20;
+    box-sizing: border-box;
+    background-color: white;
+    /* right: -30px; */
+
+}
+
+& .relative-title{
+    position: relative;
+}
+
+& .align-angle{
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    display: flex;
+    align-items: center;
+    line-height: 1.42857143;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+& .cart-title .fa-angle-left{
+    line-height: 1;
+    font-size: 1.3em;
+    /* position: absolute;
+    left: 0; */
+}
+
+& .cart-title strong{
+    color:${({ theme }) => theme.colors.black};
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+& .cart-title .empty-cart{
+    display: block;
+    color:${({ theme }) => theme.colors.darkblack};
+    font-size: 14px;
+    font-weight: bolder;
+    padding: 30px 0 20px;
+    text-align: center;
+}
+
+& .items-wrapper{
+    border: 1px solid #ccc;
+    margin: 20px -20px;
+    border-left: 0;
+    border-right: 0;
+    max-height: 190px;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+& .wrapper-ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+& .product-item{
+    border: 1px solid #ddd;
+    margin-bottom: 20px !important;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+& .wrapper-ul li:last-child{
+    margin-bottom: 0px !important;
+}
+
+& .product-item-container{
+    display: flex;
+}
+
+& .product-item-img{
+    display: auto;
+}
+
+& .product-item-img img{
+    width: 65px;
+    height: auto;
+}
+
+& .product-item-details{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding-left: 20px;
+}
+
+& .product-item-details strong{
+    line-height: normal;
+    height: auto;
+    display: inline-block;
+    width: 100%;
+    letter-spacing: normal;
+    text-align: start;
+    margin:0 0 10px;
+}
+
+& .product-item-details strong a{
+    font-size: 16px;
+    color:${({ theme }) => theme.colors.darkblack};
+    text-decoration: none;
+    font-weight: 400;
+
+    &:hover{
+        color:${({ theme }) => theme.colors.brown}
+    }
+}
+
+& .product-item-details .price-container{
+    width: auto;
+}
+
+& .product-item-details .price{
+    margin: 5px 0;
+    white-space: nowrap;
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color:${({ theme }) => theme.colors.darkblack}
+}
+
+.qty-action{
+    width: 72%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.qty{
+    display: flex;
+    align-items: center;
+    padding: 0 9px;
+    gap: 5px;
+}
+
+.qty label{}
+
+.qty input{
+    outline: none;
+    width: 60px;
+    height: 32px;
+    text-align: center;
+    border: 1px solid #e5d5d1;
+
+    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button{
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+.qty input:focus{
+    border-color: #da222b;
+    box-shadow: 0 0 4px #e5d5d1;
+}
+
+//for removing butttons in input that increase or decrease value inside input 
+/* input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+} */
+
+
+.deleteandediticons a{
+    text-decoration: none;
+    color: ${({ theme }) => theme.colors.brown};
+}
+
+.edit{
+    padding: 0 0 0 5px;
+}
+
+.delete{
+    position: absolute;
+    padding: 5px;
+    top: -25px;
+    background: ${({ theme }) => theme.colors.white};
+}
+
+.subtotal{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 10px;
+}
+
+.subtotal span{
+    font-size: 18px;
+    font-weight: 700;
+    color: ${({ theme }) => theme.colors.darkblack};
+}
+
 & .store-circle{
     position: absolute;
     display: flex;
     align-items: center;
     border-radius: 50%;
+    z-index: 40;
     height: 20px;
     width: 20px;
     top: 10px;
@@ -305,6 +525,11 @@ ${({ theme }) => theme.size.md_lg}{
 
 }
 
+@media(max-width: 639px){
+    & .shopping-cart{
+        width: 320px;
+    }
+}
 
 @media(max-width:625px){
 

@@ -2,7 +2,7 @@ import BreadCrumbs from "../components/BreadCrumbs"
 import { CollectionPageContainer } from "../styles/CollectionPage"
 import { CategoryBar } from "../styles/CategoryBar"
 import { ProductContainer } from "../styles/Products"
-import { useReducer } from "react"
+import { useEffect, useReducer } from "react"
 import { UpperProductContainer } from "../styles/Products"
 import { Card } from "../styles/Card"
 import { CardContainer } from "../styles/CardContainer"
@@ -11,9 +11,11 @@ import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useFetchAllProductQuery } from "../Redux/Api/productApi"
 import PriceRange from "../components/PriceRange"
 import Paginate from "../components/Paginate"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { PaginateProductBasedOnNumber } from "../styles/PaginateProductBasedOnNumber"
 import { useState } from "react"
+import { addToCart, totalProductCost } from "../Redux/Slices/cartSlice"
+// import { useDebounce } from "../Hooks/useDebounce"
 
 const initialState = {
     filter: false,
@@ -56,21 +58,25 @@ function productReducer(state, action) {
 }
 
 export default function CollectionPage() {
-    const [productState, dispatch] = useReducer(productReducer, initialState);
+    const [productState, localDispatch] = useReducer(productReducer, initialState);
     // console.log(initialState)
     const navigate = useNavigate();
-    const location = useLocation()
+    const location = useLocation();
+    const dispatch = useDispatch();
+
+
     const searchParams = new URLSearchParams(location.search)
     const [selectedFilters, setSelectedFilters] = useState({
         category: searchParams.get("category") || null,
-        priceRange: searchParams.get("price") || null,
+        // priceRange: searchParams.get("price") || null,
+        priceRange: [0, 4000],
         brand: searchParams.get("brand") || null,
         page: searchParams.get("page") || 1,
-        pageSize: searchParams.get("pageSize") || 24
+        pageSize: searchParams.get("pageSize") || 24,
+        minPrice: searchParams.get("minPrice") || 0,
+        maxPrice: searchParams.get("maxPrice") || 4000,
     });
 
-    // const filterData = useSelector(state => state.filter);
-    // const { page } = useSelector(state => state.filter);
 
 
     const { data, error, isSuccess, isFetching, isLoading } = useFetchAllProductQuery({
@@ -78,8 +84,10 @@ export default function CollectionPage() {
         page: selectedFilters.page,
         category: selectedFilters.category,
         brand: selectedFilters.brand,
+        minPrice: selectedFilters.minPrice,
+        maxPrice: selectedFilters.maxPrice
     })
-    // console.log(data, selectedFilters)
+    console.log("data=", data)
 
 
     const updateFilter = (e) => {
@@ -123,11 +131,21 @@ export default function CollectionPage() {
         navigate(`?${newParams.toString()}`, { replace: true }); // replaces instead of pushing new history entry
     }
 
+    const updatePriceFilter = (data) => {
+        // console.log("data=", data)
+        const newParams = new URLSearchParams(searchParams);
+        if (data.minPrice !== 0) newParams.set("minPrice", Number(data.minPrice))
+        if (data.maxPrice !== 4000) newParams.set("maxPrice", Number(data.maxPrice))
+        const queryString = newParams.toString();
+        navigate(queryString ? `?${queryString}` : ``, { replace: true })
+    }
+
+
     if (isLoading) return <div>Loading initial data...</div>;
     if (isFetching) return <div>Updating with new filter...</div>;
     if (!data) return <div>No products found</div>;
     console.log(isLoading, "3 render")
-
+    console.log(selectedFilters)
     console.log("rerender")
     return (
         <>
@@ -138,7 +156,7 @@ export default function CollectionPage() {
                     <div className="border">
                         <div className="exception">Shopping Options</div>
 
-                        <div className="title" onClick={() => dispatch({ type: "Close_All" })}>
+                        <div className="title" onClick={() => localDispatch({ type: "Close_All" })}>
                             <div>Category</div>
                             <i className="fa-solid fa-angle-down fa-sm"></i>
                         </div>
@@ -164,15 +182,20 @@ export default function CollectionPage() {
                             </li>
                         </ul>
 
-                        <div className="title" onClick={() => dispatch({ type: "Toggle_Product", payload: "product2" })}>
+                        <div className="title" onClick={() => localDispatch({ type: "Toggle_Product", payload: "product2" })}>
                             <div>Price</div>
                             <i className="fa-solid fa-angle-down fa-sm"></i>
                         </div>
                         <ul className={productState.product2 ? `content` : `content-none`}>
-                            <PriceRange />
+                            <PriceRange minPrice={selectedFilters.minPrice}
+                                maxPrice={selectedFilters.maxPrice}
+                                setSelectedFilters={setSelectedFilters}
+                                priceRange={selectedFilters.priceRange}
+                                updatePriceFilter={updatePriceFilter}
+                            />
                         </ul>
 
-                        <div className="title" onClick={() => dispatch({ type: "Toggle_Product", payload: "product3" })}>
+                        <div className="title" onClick={() => localDispatch({ type: "Toggle_Product", payload: "product3" })}>
                             <div>Brand</div>
                             <i className="fa-solid fa-angle-down fa-sm"></i>
                         </div>
@@ -204,7 +227,7 @@ export default function CollectionPage() {
                             <i className="fa-solid fa-angle-down fa-sm"></i>
                         </div>
 
-                        <div className="title" onClick={() => dispatch({ type: "Toggle_Product", payload: "product4" })}>
+                        <div className="title" onClick={() => localDispatch({ type: "Toggle_Product", payload: "product4" })}>
                             <div>Rating</div>
                             <i className="fa-solid fa-angle-down fa-sm"></i>
                         </div>
@@ -220,7 +243,7 @@ export default function CollectionPage() {
                             </li>
                         </ul>
 
-                        <div className="title" onClick={() => dispatch({ type: "Toggle_Product", payload: "product5" })}>
+                        <div className="title" onClick={() => localDispatch({ type: "Toggle_Product", payload: "product5" })}>
                             <div>Stock</div>
                             <i className="fa-solid fa-angle-down fa-sm"></i>
                         </div>
@@ -247,7 +270,7 @@ export default function CollectionPage() {
                         <div className="total-products">Total Products <strong>{data?.count}</strong></div>
 
                         <strong className="filter-strong"
-                            onClick={() => dispatch({ type: "Filter", payload: "filter" })}>
+                            onClick={() => localDispatch({ type: "Filter", payload: "filter" })}>
                             FILTER
                         </strong>
 
@@ -289,8 +312,13 @@ export default function CollectionPage() {
                                         {/* <br />
                                     <span className="browntxt">$300</span> */}
                                     </div>
-                                    <div>
+                                    <div onClick={() => {
+                                        dispatch(addToCart(el));
+                                        dispatch(totalProductCost())
+                                    }}>
                                         <Button padding="0px 15px" height="40px" content={"ADD TO CART"} />
+                                        {/* onClick={() => dispatch(addToCart(el.id))} */}
+
                                         {/* <button>ADD TO CART</button> */}
                                     </div>
                                     <div className="eye-icon">

@@ -3,9 +3,6 @@ import ReactPaginate from 'react-paginate';
 import { useNavigate, useLocation } from "react-router";
 
 export default function Paginate({ pages, page, setSelectedFilters }) {
-    // const dispatch = useDispatch()
-    // const { limit } = useSelector(state => state.filter);
-    // const { page } = useSelector(state => state.filter);
     const navigate = useNavigate();
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search)
@@ -19,7 +16,6 @@ export default function Paginate({ pages, page, setSelectedFilters }) {
         const newParams = new URLSearchParams(searchParams);
         newParams.set("page", event.selected + 1)
         navigate(`?${newParams.toString()}`, { replace: true }); // replaces instead of pushing new history entry
-        // dispatch(changePage(event.selected + 1))
     };
 
     return (
