@@ -149,7 +149,7 @@ export default function CollectionPage() {
     console.log("rerender")
     return (
         <>
-            <BreadCrumbs />
+            <BreadCrumbs text={"Collections"} />
 
             <CollectionPageContainer>
                 <CategoryBar className={productState.filter ? "block" : "none"}>
@@ -296,13 +296,13 @@ export default function CollectionPage() {
                                         <div className="abs-icon">
                                             <i className="fa-regular fa-heart fa-lg"></i>
                                         </div>
-                                        <Link className="img-link">
+                                        <Link to={`/collections/${el.id}`} className="img-link">
                                             <img width="240px" height="240px" src={el.images[0].url} alt="" />
                                         </Link>
                                     </div>
                                 </div>
                                 <div className="list-cont">
-                                    <Link className="black-a">
+                                    <Link to={`/collections/${el.id}`} className="black-a">
                                         {el.name}
                                     </Link>
                                 </div>

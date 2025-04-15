@@ -1,13 +1,15 @@
 import { useEffect, useReducer } from "react";
 import { MainHeader, Header1, Header2, NavAnchor, ListAnchor, StickyHeader } from "../styles/Header"
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useRef } from "react";
 import { deleteFromCart, totalProductCost } from "../Redux/Slices/cartSlice";
 import { useDispatch } from "react-redux";
+import { Cart } from "./Cart";
 
 const initialState = {
     cart: false,
+    signedInUser: false,
     mainMenuOpen: false,
     subMenu1Open: false,
     subMenu2Open: false,
@@ -32,6 +34,13 @@ function menuReducer(state, action) {
         case "Toggle_Cart":
             return {
                 ...state,
+                signedInUser: false,
+                [action.payload]: !state[action.payload]
+            }
+        case "Toggle_SignedInUser":
+            return {
+                ...state,
+                cart: false,
                 [action.payload]: !state[action.payload]
             }
         default:
@@ -87,8 +96,10 @@ export default function Header() {
     // console.log("userdata=", userData)
     // const navRef = useRef(null);
     const { cartItems, totalCost } = useSelector((state) => state.cart);
+    const totalItems = cartItems.reduce((acc, el) => acc + el.quantity, 0)
     // console.log(cartItems)
     const dispatch = useDispatch()
+    console.log("main navbar")
 
     useEffect(() => {
         console.log("hi2")
@@ -143,17 +154,37 @@ export default function Header() {
                             </span>
                         </div>
                         <div className="styled-icons">
-                            <Link to={userData ? `/` : `/login`} className="login-a"><i className="fa-solid fa-user fa-xl"></i>
+                            <Link
+                                to={userData ? `/` : `/login`}
+                                onClick={() => localdispatch({ type: "Toggle_SignedInUser", payload: "signedInUser" })}
+                                className="login-a"><i className="fa-solid fa-user fa-xl">
+                                    {/* <Navigate to="/login" replace /> */}
+                                </i>
                             </Link>
-                            {/* <i className="fa-solid fa-user fa-xl"></i> */}
-                            {/* <UserIcon className={"user"} /> */}
+
+                            {menuState.signedInUser && userData && (
+                                <div className="login-relative">
+                                    <ul>
+                                        <li><Link>My Account</Link></li>
+                                        <li><Link>My Favourite List</Link></li>
+                                        <li><Link>Sign Out</Link></li>
+                                    </ul>
+                                </div>
+                            )}
+                            {/* <div className="login-relative">
+                                <ul>
+                                    <li><Link>My Account</Link></li>
+                                    <li><Link>My Favourite List</Link></li>
+                                    <li><Link>Sign Out</Link></li>
+                                </ul>
+                            </div> */}
                         </div>
                         <div className="styled-icons">
                             <i className="fa-solid fa-bag-shopping fa-xl"
                                 onClick={() => localdispatch({ type: "Toggle_Cart", payload: "cart" })}
                             ></i>
                             <span className="store-circle">
-                                <span>0</span>
+                                <span>{totalItems}</span>
                             </span>
                             <div className={menuState.cart ? `shopping-cart` : `display-none`}>
                                 <div className="cart-title">
@@ -169,9 +200,8 @@ export default function Header() {
                                         <>
                                             <div className="items-wrapper">
                                                 <ul className="wrapper-ul">
-                                                    {cartItems.map((el, idx) => (
+                                                    {/* {cartItems.map((el, idx) => (
                                                         <li className="product-item" key={idx}>
-                                                            {/* {el.name} */}
 
                                                             <div className="product-item-container">
                                                                 <Link className="product-item-img">
@@ -191,7 +221,9 @@ export default function Header() {
                                                                         </div>
                                                                         <div className="deleteandediticons">
                                                                             <Link className="edit"
-                                                                                to={`/collections`}>
+                                                                                to={`/collections`}
+
+                                                                            >
                                                                                 <i className="fa-solid fa-pen-to-square"></i>
                                                                             </Link>
                                                                             <Link className="delete"
@@ -208,7 +240,8 @@ export default function Header() {
 
                                                             </div>
                                                         </li>
-                                                    ))}
+                                                    ))} */}
+                                                    <Cart />
                                                 </ul>
                                             </div>
                                         </>
@@ -218,10 +251,24 @@ export default function Header() {
                                         </>
                                     }
                                 </div>
-                                {cartItems.length > 0 && <div className="subtotal">
-                                    <span>Cart Subtotal:</span>
-                                    <span>${totalCost.toFixed(2)}</span>
-                                </div>}
+                                {cartItems.length > 0 &&
+                                    (
+                                        <>
+                                            <div className="subtotal">
+                                                <span>Cart Subtotal:</span>
+                                                <span>${totalCost.toFixed(2)}</span>
+                                            </div>
+                                            <div className="additional-info">
+                                                <span className="info-span span-1">Your remaining amount for free shipping $46.00</span>
+                                                <span className="info-span span-2">Above $99 Surprise gift will be add.</span>
+                                            </div>
+                                            <div className="additional-info pd-15">
+                                                <Link className="info-a">VIEW CART <i className="fa-solid fa-arrow-right-long"></i></Link>
+                                                <button className="info-a">CHECKOUT <i className="fa-solid fa-arrow-right-long"></i></button>
+                                            </div>
+                                        </>
+                                    )
+                                }
                             </div>
                             {/* <StoreIcon className={"store"} /> */}
                         </div>

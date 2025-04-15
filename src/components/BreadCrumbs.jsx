@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { BreadCrumbsContainer } from "../styles/BreadCrumbs"
-export default function BreadCrumbs() {
+export default function BreadCrumbs({ text }) {
     return (
         <>
             <BreadCrumbsContainer>
@@ -11,7 +11,7 @@ export default function BreadCrumbs() {
                         </Link>
                     </li>
                     <li>
-                        <strong>Collections</strong>
+                        <strong>{text}</strong>
                     </li>
                 </ul>
             </BreadCrumbsContainer>

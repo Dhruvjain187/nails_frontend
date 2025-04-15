@@ -22,25 +22,20 @@ export const productApiSlice = apiSlice.injectEndpoints({
             }
 
         }),
+
+        fetchProductById: builder.query({
+            query: ({ id }) => {
+                return {
+                    url: `${PRODUCT_URL}/${id}`,
+                    method: 'GET'
+                }
+            }
+        })
     })
 })
 
 
 export const {
-    useFetchAllProductQuery
-    // useLoginUserMutation,
-    // useLogoutUserMutation,
-    // useRegisterUserMutation,
+    useFetchAllProductQuery,
+    useFetchProductByIdQuery,
 } = productApiSlice;
-
-// query: ({ page = 1 }) =>
-// {
-//     const params = new URLSearchParams();
-
-//     params.append('page', page);
-
-//     return {
-//         url: `${PRODUCT_URL}?${params.toString()}`,
-//         method: 'GET',
-//     };
-// }

@@ -198,6 +198,64 @@ margin-bottom: 7px;
     position: relative;
 }
 
+& .styled-icons .login-relative{
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 48px;
+    left: -140px;
+    /* background: ${({ theme }) => theme.colors.white}; */
+}
+
+& .styled-icons .login-relative ul{
+    padding: 0;
+    margin: 0;
+    margin-top: 4px;
+    background: ${({ theme }) => theme.colors.white};
+    position: relative;
+    left: 5px;
+    top: 10px;
+    list-style: none;
+    /* min-width: 175px; */
+    z-index: 50;
+    border: 1px solid #bbb;
+    box-sizing: border-box;
+    box-shadow: 0 3px 3px rgba(0,0,0,.15);
+}
+
+& .styled-icons .login-relative ul a{
+    display: block;
+    color: ${({ theme }) => theme.colors.darkblack};
+    text-decoration: none;
+    padding: 8px;
+}
+
+/* & .styled-icons .login-relative ul::before{
+    display: block;
+    position: absolute;
+    content: "";
+    height: 0;
+    width: 0;
+    right: 10px;
+    top: -12px;
+    border: 6px solid;
+    border-color: transparent transparent #fff;
+    border-bottom-style:solid;
+    z-index: 99;
+}
+
+& .styled-icons .login-relative ul::after{
+    display: block;
+    position: absolute;
+    content: "";
+    height: 0;
+    width: 0;
+    right: 9px;
+    top: -14px;
+    border: 7px solid;
+    border-color: transparent transparent #bbb;
+    z-index: 98;
+} */
 
 & .fa-bag-shopping{
     position: relative;
@@ -388,8 +446,9 @@ input[type="number"]::-webkit-outer-spin-button {
 } */
 
 
-.deleteandediticons a{
-    text-decoration: none;
+.deleteandediticons div{
+    /* text-decoration: none; */
+    display: inline;
     color: ${({ theme }) => theme.colors.brown};
 }
 
@@ -415,6 +474,74 @@ input[type="number"]::-webkit-outer-spin-button {
     font-size: 18px;
     font-weight: 700;
     color: ${({ theme }) => theme.colors.darkblack};
+}
+
+.additional-info{
+    display: flex;
+    /* flex-wrap: wrap; */
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    column-gap: 10px;
+}
+
+.additional-info .info-span{
+    color: ${({ theme }) => theme.colors.white};
+    background: ${({ theme }) => theme.colors.brown};
+    padding: 10px 10px 10px 50px;
+    margin-bottom: 10px;
+    width: 50%;
+    text-align: start;
+    display: block;
+    font-weight: 500;
+    font-size: 1.2rem;
+    position: relative;
+}
+
+.info-span.span-1::before{
+    content: "";
+    background-image: url("https://www.lanailsupplies.com/static/version1744184972/frontend/Cp/lanails/en_US/images/free-shipping.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
+    height: 35px;
+    width: 35px;
+    position: absolute;
+    left: 10px ;
+    top: 2px ;
+}
+
+.info-span.span-2::before{
+    content: "";
+    background-image: url("https://www.lanailsupplies.com/static/version1744184972/frontend/Cp/lanails/en_US/images/gift.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25px;
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    left: 15px ;
+    top: 6px ;
+}
+
+.additional-info .info-a{
+    outline: none;
+    text-decoration: none;
+    border: none;
+    display: block;
+    width: 50%;
+    height: 40px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 44px;
+    background: ${({ theme }) => theme.colors.brown};
+    color: ${({ theme }) => theme.colors.white};
+    border-radius: 5px;
+    letter-spacing: 1.38px;
+}
+
+.additional-info.pd-15{
+    padding-bottom: 15px;
 }
 
 & .store-circle{
@@ -483,6 +610,39 @@ input[type="text"]{
     text-decoration: none;
 }
 
+@media(min-width:739px){
+        & .styled-icons .login-relative ul{
+            min-width: 175px;
+        }
+
+        & .styled-icons .login-relative ul::before{
+        display: block;
+        position: absolute;
+        content: "";
+        height: 0;
+        width: 0;
+        right: 10px;
+        top: -12px;
+        border: 6px solid;
+        border-color: transparent transparent #fff;
+        border-bottom-style:solid;
+        z-index: 99;
+    }
+
+    & .styled-icons .login-relative ul::after{
+        display: block;
+        position: absolute;
+        content: "";
+        height: 0;
+        width: 0;
+        right: 9px;
+        top: -14px;
+        border: 7px solid;
+        border-color: transparent transparent #bbb;
+        z-index: 98;
+    }
+}
+
 @media(max-width:1115px){
     justify-content: space-between;
 
@@ -523,6 +683,17 @@ ${({ theme }) => theme.size.md_lg}{
     margin: 0 auto;
  }
 
+}
+
+@media(max-width: 768px){
+    & .styled-icons .login-relative{
+        top: 100%;
+    }
+
+    & .styled-icons .login-relative ul{
+        top: 0px;
+        left: -2px;
+    }
 }
 
 @media(max-width: 639px){
