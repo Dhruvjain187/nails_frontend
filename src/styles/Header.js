@@ -189,6 +189,27 @@ box-sizing: content-box;
 gap:1rem;
 margin-bottom: 7px;
 
+& .btn-invisible{
+    display: none;
+}
+
+& .btn-visible{
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    background: ${({ theme }) => theme.colors.brown};
+    padding: 0 10px;
+    color: ${({ theme }) => theme.colors.white};
+    font-size: 1.1rem;
+    font-family: "Roboto";
+    letter-spacing: 1.38px;
+    box-sizing: border-box;
+
+    &:hover{
+        background: #e2e2e2;
+    }
+}
+
 & span.number{
     font-weight: 500;
     font-size: 15px;
@@ -414,7 +435,7 @@ margin-bottom: 7px;
 .qty{
     display: flex;
     align-items: center;
-    padding: 0 9px;
+    /* padding: 0 9px; */
     gap: 5px;
 }
 
@@ -698,7 +719,47 @@ ${({ theme }) => theme.size.md_lg}{
 
 @media(max-width: 639px){
     & .shopping-cart{
-        width: 320px;
+        width: 340px;
+    }
+
+    & .product-item-details .price-container{
+        text-align: start;
+        width:100%;
+    }
+
+    .qty-action{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .product-item-details strong a{
+        font-size: 14px;
+    }
+
+    .qty input{
+        box-sizing: border-box;
+    }
+
+    .qty{
+        padding: 0 !important;
+    }
+
+    .additional-info{
+        flex-wrap: wrap;
+    }
+
+    .additional-info .info-span{
+        width: 100%;
+    }
+
+    .additional-info .info-a{
+        width: 100%;
+    }
+
+    .additional-info .info-a:first-child{
+        margin-bottom: 10px;
     }
 }
 

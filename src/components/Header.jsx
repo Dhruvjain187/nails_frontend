@@ -1,11 +1,14 @@
 import { useEffect, useReducer } from "react";
 import { MainHeader, Header1, Header2, NavAnchor, ListAnchor, StickyHeader } from "../styles/Header"
-import { Link, Navigate } from "react-router-dom";
+import {
+    Link,
+    // Navigate
+} from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useRef } from "react";
-import { deleteFromCart, totalProductCost } from "../Redux/Slices/cartSlice";
-import { useDispatch } from "react-redux";
-import { Cart } from "./Cart";
+// import { useRef } from "react";
+// import { deleteFromCart, totalProductCost } from "../Redux/Slices/cartSlice";
+// import { useDispatch } from "react-redux";
+import { Cart, CartItems, CartPriceContainer } from "./Cart";
 
 const initialState = {
     cart: false,
@@ -53,56 +56,17 @@ function menuReducer(state, action) {
 
 
 export default function Header() {
-    // function IconSize(props) {
-    //     const { className } = props;
-    //     return (
-    //         <span className={`icons ${className}`} >
-    //             <CiPhone />
-    //         </span >
-    //     )
-    // }
-
-    // function MenuIcon(props) {
-    //     const { className } = props;
-    //     return (
-    //         <label htmlFor="menu">
-    //             <div className={`menu ${className}`}><CiMenuBurger /></div>
-    //         </label >
-    //     )
-    // }
-
-    // function UserIcon(props) {
-    //     const { className } = props;
-    //     return (
-    //         <span className={`icons ${className}`} >
-    //             <FaRegUser />
-    //         </span >
-    //     )
-    // }
-
-    // function StoreIcon(props) {
-    //     const { className } = props;
-    //     return (
-    //         <span className={`icons ${className}`} >
-    //             <IoBagOutline />
-    //         </span >
-    //     )
-    // }
-
     const [menuState, localdispatch] = useReducer(menuReducer, initialState);
-    // console.log("hello")
-
     const { userData } = useSelector((state) => state.auth)
     // console.log("userdata=", userData)
     // const navRef = useRef(null);
-    const { cartItems, totalCost } = useSelector((state) => state.cart);
-    const totalItems = cartItems.reduce((acc, el) => acc + el.quantity, 0)
+    // const { cartItems, totalCost } = useSelector((state) => state.cart);
+    // const totalItems = cartItems.reduce((acc, el) => acc + el.quantity, 0)
     // console.log(cartItems)
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     console.log("main navbar")
 
     useEffect(() => {
-        console.log("hi2")
         // const handleClickOutside = (event) => {
         //     if (navRef.current && !navRef.current.contains(event.target)) {
         //         localdispatch({ type: 'Close_All' });
@@ -136,17 +100,13 @@ export default function Header() {
                     {/* <input type="checkbox" id="menu" /> */}
 
                     <Header1 >
-                        {/* <label htmlFor="menu"> */}
                         <div className="menu" onClick={() => localdispatch({ type: "Toggle_Main_Menu" })}><i className="fa-solid fa-bars fa-xl"></i></div>
-                        {/* </label> */}
-                        {/* <MenuIcon className="menu-icon" /> */}
                         <div className="image"><img src="https://www.lanailsupplies.com/static/version1740644501/frontend/Cp/lanails/en_US/images/logo_black.png" alt="" /></div>
                         <div className="input">
                             <input type="text" placeholder="search" />
                         </div>
                         <div className="styled-icons">
                             <i className="fa-solid fa-phone fa-xl"></i>
-                            {/* <IconSize className={"phone"} /> */}
 
                             <span className="number">
                                 &nbsp; &nbsp;
@@ -158,7 +118,6 @@ export default function Header() {
                                 to={userData ? `/` : `/login`}
                                 onClick={() => localdispatch({ type: "Toggle_SignedInUser", payload: "signedInUser" })}
                                 className="login-a"><i className="fa-solid fa-user fa-xl">
-                                    {/* <Navigate to="/login" replace /> */}
                                 </i>
                             </Link>
 
@@ -171,20 +130,14 @@ export default function Header() {
                                     </ul>
                                 </div>
                             )}
-                            {/* <div className="login-relative">
-                                <ul>
-                                    <li><Link>My Account</Link></li>
-                                    <li><Link>My Favourite List</Link></li>
-                                    <li><Link>Sign Out</Link></li>
-                                </ul>
-                            </div> */}
                         </div>
                         <div className="styled-icons">
                             <i className="fa-solid fa-bag-shopping fa-xl"
                                 onClick={() => localdispatch({ type: "Toggle_Cart", payload: "cart" })}
                             ></i>
                             <span className="store-circle">
-                                <span>{totalItems}</span>
+                                {/* <span>{totalItems}</span> */}
+                                <CartItems />
                             </span>
                             <div className={menuState.cart ? `shopping-cart` : `display-none`}>
                                 <div className="cart-title">
@@ -196,81 +149,10 @@ export default function Header() {
                                         </div>
                                         <strong>Minicart</strong>
                                     </div>
-                                    {cartItems.length > 0 ?
-                                        <>
-                                            <div className="items-wrapper">
-                                                <ul className="wrapper-ul">
-                                                    {/* {cartItems.map((el, idx) => (
-                                                        <li className="product-item" key={idx}>
-
-                                                            <div className="product-item-container">
-                                                                <Link className="product-item-img">
-                                                                    <img src={el.image} alt="" />
-                                                                </Link>
-                                                                <div className="product-item-details">
-                                                                    <strong>
-                                                                        <Link>{el.name}</Link>
-                                                                    </strong>
-                                                                    <div className="price-container">
-                                                                        <span className="price">${el.price}</span>
-                                                                    </div>
-                                                                    <div className="qty-action">
-                                                                        <div className="qty">
-                                                                            <label htmlFor="qty" >Qty</label>
-                                                                            <input type="number" id="qty" value={el.quantity} />
-                                                                        </div>
-                                                                        <div className="deleteandediticons">
-                                                                            <Link className="edit"
-                                                                                to={`/collections`}
-
-                                                                            >
-                                                                                <i className="fa-solid fa-pen-to-square"></i>
-                                                                            </Link>
-                                                                            <Link className="delete"
-                                                                                to={`/collections`}
-                                                                                onClick={() => {
-                                                                                    dispatch(deleteFromCart(el));
-                                                                                    dispatch(totalProductCost())
-                                                                                }}>
-                                                                                <i className="fa-solid fa-trash fa-lg"></i>
-                                                                            </Link>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </li>
-                                                    ))} */}
-                                                    <Cart />
-                                                </ul>
-                                            </div>
-                                        </>
-                                        :
-                                        <>
-                                            <strong className="empty-cart">You have no items in your shopping cart.</strong>
-                                        </>
-                                    }
+                                    <Cart />
                                 </div>
-                                {cartItems.length > 0 &&
-                                    (
-                                        <>
-                                            <div className="subtotal">
-                                                <span>Cart Subtotal:</span>
-                                                <span>${totalCost.toFixed(2)}</span>
-                                            </div>
-                                            <div className="additional-info">
-                                                <span className="info-span span-1">Your remaining amount for free shipping $46.00</span>
-                                                <span className="info-span span-2">Above $99 Surprise gift will be add.</span>
-                                            </div>
-                                            <div className="additional-info pd-15">
-                                                <Link className="info-a">VIEW CART <i className="fa-solid fa-arrow-right-long"></i></Link>
-                                                <button className="info-a">CHECKOUT <i className="fa-solid fa-arrow-right-long"></i></button>
-                                            </div>
-                                        </>
-                                    )
-                                }
+                                <CartPriceContainer />
                             </div>
-                            {/* <StoreIcon className={"store"} /> */}
                         </div>
                     </Header1>
 

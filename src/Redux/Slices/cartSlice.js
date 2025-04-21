@@ -38,7 +38,7 @@ const cartSlice = createSlice({
         // })
 
         addToCart: (state, action) => {
-            // console.log(action.payload)
+            console.log(action.payload)
             const quantity = cartSlice.caseReducers.findQuantity(state, action)
 
             if (quantity == 0) {
@@ -88,10 +88,20 @@ const cartSlice = createSlice({
 
         updateQuantity: (state, action) => {
             console.log("payload=", action.payload)
-            action.payload.forEach((update) => (
-                state.cartItems = state.cartItems.map((el) =>
-                    el.id === update.id ? { ...el, quantity: Number(update.quantity) } : el)
-            ))
+
+
+            // action.payload.forEach((update) => (
+            //     state.cartItems = state.cartItems.map((el) =>
+            //         el.id === update.id ? { ...el, quantity: Number(update.quantity) } : el)
+            // ))
+
+            state.cartItems = state.cartItems.map((el) => {
+                const update = action.payload.find((up) => up.id === el.id);
+                if (update) {
+                    return { ...el, quantity: update.quantity }
+                }
+                return el;
+            })
 
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
             // localStorage.setItem("totalCost", JSON.stringify(state.totalCost))
