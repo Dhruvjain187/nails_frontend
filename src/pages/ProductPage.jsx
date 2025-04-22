@@ -1,4 +1,4 @@
-import { useParams } from "react-router"
+import { useParams, useSearchParams } from "react-router"
 import { useFetchProductByIdQuery } from "../Redux/Api/productApi";
 import BreadCrumbs from "../components/BreadCrumbs";
 import { ProductContent, ProductPageStyles } from "../styles/ProductPage";
@@ -6,9 +6,14 @@ import ProductPageSlider from "../components/ProductPageSlider";
 import { Link } from "react-router-dom";
 import MoreDetails from "../components/MoreDetails";
 import { ProductBtn } from "../components/Button"
+import UpdateProductPage from "../components/UpdateProductPage";
 
 export default function ProductPage() {
     const { id } = useParams();
+    const [searchParams] = useSearchParams();
+    const update = searchParams.get('update')
+    // console.log(update, searchParams)
+
     const { data, error, isSuccess, isFetching, isLoading } = useFetchProductByIdQuery({
         id
     })
@@ -88,7 +93,7 @@ export default function ProductPage() {
                             <div className="info-price">
                                 <span>${data.price}</span>
                             </div>
-                            <div className="field">
+                            {/* <div className="field">
                                 <div className="qty-container">
                                     <span className="qty">Qty</span>
                                     <div className="box">
@@ -98,9 +103,14 @@ export default function ProductPage() {
                                     </div>
                                 </div>
                                 <div>
-                                    <ProductBtn padding="0px 15px" height="40px" content={"ADD TO CART"} />
+                                    {update ?
+                                        <ProductBtn padding="0px 15px" height="40px" content={"UPDATE CART"} />
+                                        :
+                                        <ProductBtn padding="0px 15px" height="40px" content={"ADD TO CART"} />}
+
                                 </div>
-                            </div>
+                            </div> */}
+                            <UpdateProductPage update={update} id={data.id} />
                         </div>
 
                         <div className="share-info">

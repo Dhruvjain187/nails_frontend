@@ -116,12 +116,12 @@ export const Cart = memo(function Cart() {
                                                 >UPDATE</button>
                                             </div>
                                             <div className="deleteandediticons">
-                                                <div className="edit"
-                                                // to={`/collections`}
+                                                <Link className="edit"
+                                                    to={`/collections/${el.id}?update=true`}
 
                                                 >
                                                     <i className="fa-solid fa-pen-to-square"></i>
-                                                </div>
+                                                </Link>
                                                 <div className="delete"
                                                     // to={`/collections`}
                                                     onClick={() => {

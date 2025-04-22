@@ -473,6 +473,12 @@ input[type="number"]::-webkit-outer-spin-button {
     color: ${({ theme }) => theme.colors.brown};
 }
 
+.deleteandediticons a{
+    /* text-decoration: none; */
+    display: inline;
+    color: ${({ theme }) => theme.colors.brown};
+}
+
 .edit{
     padding: 0 0 0 5px;
 }
