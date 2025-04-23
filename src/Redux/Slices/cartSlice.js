@@ -1,20 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-//helper function
-// const calcTotalCost = (product) => {
-//     // state.totalCost = 0
-
-//     // state.cartItems.map((el) => {
-//     //     state.totalCost += el.price * el.quantity
-//     //     // state.totalCost = state.toFixed(2)
-//     //     localStorage.setItem("totalCost", JSON.stringify(state.totalCost))
-//     // })
-//     return product.reduce((total, product) => total + product.price + product.quantity)
-// }
-
 const initialState = {
     cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
     totalCost: JSON.parse(localStorage.getItem("totalCost")) || 0,
+    isUpdating: {}
 };
 
 const cartSlice = createSlice({
@@ -30,12 +19,6 @@ const cartSlice = createSlice({
             }
             return quantity
         },
-        // const quantity = state.cartItems.find((el) => {
-        //     // (el.id === action.payload)?.quantity
-        //     if (el.id === action.payload) {
-        //         return el.quantity
-        //     }
-        // })
 
         addToCart: (state, action) => {
             console.log(action.payload)
@@ -49,12 +32,32 @@ const cartSlice = createSlice({
                     image: action.payload.images[0].url,
                     quantity: 1
                 })
-                localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
             }
             else {
                 state.cartItems = state.cartItems.map((el) => (el.id === action.payload.id) ? { ...el, quantity: el.quantity + 1 } : el)
-                localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
             }
+
+            localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
+            cartSlice.caseReducers.totalProductCost(state)
+        },
+
+        addToCartWithQty: (state, action) => {
+            const quantity = cartSlice.caseReducers.findQuantity(state, action)
+            if (quantity == 0) {
+                state.cartItems.push({
+                    id: action.payload.id,
+                    name: action.payload.name,
+                    price: action.payload.price,
+                    image: action.payload.images[0].url,
+                    quantity: action.payload.quantity
+                })
+            }
+            else {
+                state.cartItems = state.cartItems.map((el) => (el.id === action.payload.id) ? { ...el, quantity: el.quantity + action.payload.quantity } : el)
+            }
+
+            localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
+            cartSlice.caseReducers.totalProductCost(state)
         },
 
         deleteFromCart: (state, action) => {
@@ -65,10 +68,6 @@ const cartSlice = createSlice({
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
 
             cartSlice.caseReducers.totalProductCost(state)
-            // if (state.cartItems.length === 0) {
-            //     state.totalCost = 0
-            //     localStorage.setItem("totalCost", JSON.stringify(state.totalCost))
-            // }
         },
 
         totalProductCost: (state, action) => {
@@ -86,26 +85,26 @@ const cartSlice = createSlice({
             }
         },
 
+
         updateQuantity: (state, action) => {
             console.log("payload=", action.payload)
+            const { id, quantity } = action.payload;
 
+            const itemIndex = state.cartItems.findIndex(item => item.id === id);
 
-            // action.payload.forEach((update) => (
-            //     state.cartItems = state.cartItems.map((el) =>
-            //         el.id === update.id ? { ...el, quantity: Number(update.quantity) } : el)
-            // ))
+            if (itemIndex >= 0 && quantity > 0) {
+                state.cartItems[itemIndex].quantity = quantity
+            }
 
-            state.cartItems = state.cartItems.map((el) => {
-                const update = action.payload.find((up) => up.id === el.id);
-                if (update) {
-                    return { ...el, quantity: update.quantity }
-                }
-                return el;
-            })
+            state.isUpdating[id] = false
 
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
-            // localStorage.setItem("totalCost", JSON.stringify(state.totalCost))
             cartSlice.caseReducers.totalProductCost(state)
+        },
+
+        setUpdatingStatus: (state, action) => {
+            const { id, status } = action.payload;
+            state.isUpdating[id] = status;
         }
     },
 });
@@ -115,7 +114,9 @@ export const {
     addToCart,
     deleteFromCart,
     totalProductCost,
-    updateQuantity
+    updateQuantity,
+    setUpdatingStatus,
+    addToCartWithQty
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

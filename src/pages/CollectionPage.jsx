@@ -348,33 +348,3 @@ export default function CollectionPage() {
         </>
     )
 }
-
-{/* <PriceRange /> */ }
-{/* <Card>
-    <div className="list-img">
-        <div className="inner-pad">
-            <div className="abs-icon">
-                <i className="fa-regular fa-heart fa-lg"></i>
-            </div>
-            <Link>
-                <img width="240px" height="240px" src="https://media.lanailsupplies.com/catalog/product/cache/732117cbdeadcdd2e3e2ea8b59e64c68/d/c/dccol8.3.webp" alt="" />
-            </Link>
-        </div>
-    </div>
-    <div className="list-cont">
-        <Link className="black-a">
-            DND DC Pure Gel Polish Set Collection #8, 36pc Bundle
-        </Link>
-    </div>
-    <div className="add-info">
-        <div className="price">
-            <span className="blacktxt">$229</span>
-        </div>
-        <div>
-            <Button padding="0px 15px" height="40px" content={"ADD TO CART"} />
-        </div>
-        <div className="eye-icon">
-            <i className="fa-solid fa-eye"></i>
-        </div>
-    </div>
-</Card> */}

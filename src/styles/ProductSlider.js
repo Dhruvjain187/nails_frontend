@@ -32,6 +32,7 @@ export const ProductSliderContainer = styled.div`
         & .list-cont{
             margin-bottom: 5px;
             font-weight: 400;
+            height: 38px;
             font-size: 14px;
             color: #2d2c2c;
             text-align: inherit;

@@ -4,6 +4,7 @@ export const ProductPageStyles = styled.div`
     /* display: flex; */
     padding: 0 15px;
     box-sizing: border-box;
+    margin-bottom: 54px;
     /* max-width: 1754px; */
     
     & .padding-container{
@@ -83,6 +84,8 @@ export const ProductPageStyles = styled.div`
 
 
         @media(max-width:768px){
+        margin-bottom: 30px;
+
         .padding-container{
             flex-wrap: wrap !important;
             padding: 0;

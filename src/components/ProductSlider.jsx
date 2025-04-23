@@ -5,7 +5,7 @@ import { ProductSliderContainer } from "../styles/ProductSlider";
 import ProductComponentHeader from "./ProductComponentHeader"
 
 
-export default function ProductSlider() {
+export default function ProductSlider({ productPage = true }) {
     const settings = {
         dots: false,
         infinite: false,
@@ -68,7 +68,7 @@ export default function ProductSlider() {
     return (
         <>
             <ProductSliderContainer>
-                <ProductComponentHeader title={"Best Sellers"} btn={"VIEW MORE"} />
+                <ProductComponentHeader title={"Best Sellers"} btn={"VIEW MORE"} productPage={productPage} />
 
 
                 <div className="slider-container">

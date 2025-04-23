@@ -1,84 +1,13 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteFromCart, totalProductCost, updateQuantity } from "../Redux/Slices/cartSlice";
+import { deleteFromCart, updateQuantity, setUpdatingStatus } from "../Redux/Slices/cartSlice";
 import { Link } from "react-router-dom";
 import { memo } from "react";
 
 
 export const Cart = memo(function Cart() {
     const cartItems = useSelector((state) => state.cart.cartItems);
-    const dispatch = useDispatch();
-    console.log("cartItems=", cartItems)
-
-    const [localQuantity, setLocalQuantity] = useState(cartItems.reduce((acc, el) => ({ ...acc, [el.id]: Number(el.quantity) }), {})
-    )
-
-    // const [localQuantity, setLocalQuantity] = useState(
-    //     cartItems.reduce((acc, el) => {
-    //         return ({ ...acc, [el.id]: Number(el.quantity) }, {})
-    //     })
-    // )
-
-    // const localQuantityData = cartItems.reduce((acc, el) => ({ ...acc, [el.id]: Number(el.quantity) }), {})
-
-
-    const [hasChange, setHasChange] = useState(
-        cartItems.reduce((acc, el) => ({ ...acc, [el.id]: Boolean(false) }), {})
-    )
-
-    console.log("localqty", localQuantity, "change", hasChange)
-
-    const handleQuantityChange = (id, event) => {
-        const newQuantity = parseInt(event.target.value)
-        console.log("newQuantity=", newQuantity);
-
-        if (newQuantity === "" || isNaN(newQuantity)) {
-            setLocalQuantity((prev) => ({ ...prev, [id]: "" }))
-            setHasChange((prev) => ({ ...prev, [id]: false }))
-        }
-        else if (newQuantity > 0) {
-            setLocalQuantity((prev) => ({
-                ...prev,
-                [id]: Number(newQuantity)
-            }))
-
-            setHasChange((prev) => ({
-                ...prev,
-                [id]: newQuantity !== (cartItems.find((el) => el.id === id)?.quantity)
-            }))
-        }
-    }
-
-    const handleUpdateQuantity = (id) => {
-        const item = cartItems.find((el) => el.id === id)
-
-        if (item) {
-            const update = {
-                id: item.id,
-                quantity: localQuantity[item.id]
-            }
-
-            dispatch(updateQuantity([update]))
-            setHasChange((prev) => ({ ...prev, [item.id]: false }))
-        }
-        // const updates = cartItems.map((el) => ({
-        //     id: el.id,
-        //     quantity: Number(localQuantity[el.id])
-        // }))
-        // console.log("updates=", updates)
-        // setHasChange((prev) => ({ ...prev, [uid]: false }))
-        // dispatch(updateQuantity(updates))
-    }
-
-    useEffect(() => {
-        setLocalQuantity(
-            cartItems.reduce((acc, el) => ({ ...acc, [el.id]: Number(el.quantity) }), {})
-        );
-
-        setHasChange(
-            cartItems.reduce((acc, el) => ({ ...acc, [el.id]: false }), {})
-        );
-    }, [cartItems]);
+    // console.log("cart rerender")
 
     return (
         <>{cartItems.length > 0 ?
@@ -88,54 +17,9 @@ export const Cart = memo(function Cart() {
 
                         {cartItems.map((el, idx) => (
                             <li className="product-item" key={idx}>
-
-                                <div className="product-item-container">
-                                    <Link className="product-item-img">
-                                        <img src={el.image} alt="" />
-                                    </Link>
-                                    <div className="product-item-details">
-                                        <strong>
-                                            <Link>{el.name}</Link>
-                                        </strong>
-                                        <div className="price-container">
-                                            <span className="price">${el.price}</span>
-                                        </div>
-                                        <div className="qty-action">
-                                            <div className="qty">
-                                                <label htmlFor="qty" >Qty</label>
-                                                <input
-                                                    name="quantity"
-                                                    type="number" id="qty"
-                                                    // defaultValue={el.quantity}
-                                                    value={localQuantity[el.id] !== undefined ?
-                                                        localQuantity[el.id] : el.quantity}
-                                                    onChange={(e) => handleQuantityChange(el.id, e)} />
-                                                <button
-                                                    onClick={() => handleUpdateQuantity(el.id)}
-                                                    className={hasChange[el.id] ? "btn-visible" : "btn-invisible"}
-                                                >UPDATE</button>
-                                            </div>
-                                            <div className="deleteandediticons">
-                                                <Link className="edit"
-                                                    to={`/collections/${el.id}?update=true`}
-
-                                                >
-                                                    <i className="fa-solid fa-pen-to-square"></i>
-                                                </Link>
-                                                <div className="delete"
-                                                    // to={`/collections`}
-                                                    onClick={() => {
-                                                        dispatch(deleteFromCart(el));
-                                                        dispatch(totalProductCost())
-                                                    }}>
-                                                    <i className="fa-solid fa-trash fa-lg"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                <SingleItem el={el} />
                             </li>
+
                         ))}
                     </ul>
                 </div>
@@ -313,5 +197,84 @@ export const CartPriceContainer = memo(function CartContainer() {
                 )
             }
         </>
+    )
+})
+
+
+export const SingleItem = memo(function SingleItem({ el }) {
+    const { id, quantity } = el;
+
+    const dispatch = useDispatch();
+    const isUpdating = useSelector((state) => state.cart.isUpdating[id]);
+
+    const [tempQuantity, setTempQuantity] = useState(quantity);
+    // console.log(quantity, "item rerender", tempQuantity)
+
+    const handleQuantityChange = (e) => {
+        const newValue = parseInt(e.target.value) || 1
+        setTempQuantity(newValue);
+        if (newValue !== quantity) {
+            dispatch(setUpdatingStatus({ id: id, status: true }))
+        }
+        else {
+            dispatch(setUpdatingStatus({ id: id, status: false }))
+        }
+    }
+
+    const handleUpdateQuantity = () => {
+        dispatch(updateQuantity({ id: id, quantity: tempQuantity }))
+    }
+
+    useEffect(() => {
+        setTempQuantity(quantity)
+    }, [quantity])
+
+    return (
+        <div className="product-item-container">
+            <Link className="product-item-img">
+                <img src={el.image} alt="" />
+            </Link>
+            <div className="product-item-details">
+                <strong>
+                    <Link>{el.name}</Link>
+                </strong>
+                <div className="price-container">
+                    <span className="price">${el.price}</span>
+                </div>
+                <div className="qty-action">
+                    <div className="qty">
+                        <label htmlFor="qty" >Qty</label>
+                        <input
+                            name="quantity"
+                            type="number" id="qty"
+                            value={tempQuantity}
+                            onChange={handleQuantityChange}
+                        />
+                        {isUpdating &&
+                            <button
+                                onClick={handleUpdateQuantity}
+                                className="btn-visible"
+                            >UPDATE</button>}
+                    </div>
+                    <div className="deleteandediticons">
+                        <Link className="edit"
+                            to={`/collections/${el.id}?update=true`}
+
+                        >
+                            <i className="fa-solid fa-pen-to-square"></i>
+                        </Link>
+                        <div className="delete"
+                            // to={`/collections`}
+                            onClick={() => {
+                                dispatch(deleteFromCart(el));
+                            }}>
+                            <i className="fa-solid fa-trash fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     )
 })

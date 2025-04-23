@@ -12,7 +12,7 @@ export const ProductHeader = styled.header`
             font-size: 25px;
             margin: 0;
             color: ${({ theme }) => theme.colors.darkblack};
-            font-weight: 500;
+            font-weight: 600;
         }
 
         a{

@@ -5,20 +5,20 @@ import { ProductContent, ProductPageStyles } from "../styles/ProductPage";
 import ProductPageSlider from "../components/ProductPageSlider";
 import { Link } from "react-router-dom";
 import MoreDetails from "../components/MoreDetails";
-import { ProductBtn } from "../components/Button"
+import ProductSlider from "../components/ProductSlider";
 import UpdateProductPage from "../components/UpdateProductPage";
+import RecentlyViewed from "../components/RecentlyViewed";
+
+
 
 export default function ProductPage() {
     const { id } = useParams();
     const [searchParams] = useSearchParams();
     const update = searchParams.get('update')
-    // console.log(update, searchParams)
 
     const { data, error, isSuccess, isFetching, isLoading } = useFetchProductByIdQuery({
         id
     })
-
-    // console.log(data)
 
 
     if (isLoading) return <div>Loading initial data...</div>;
@@ -110,7 +110,7 @@ export default function ProductPage() {
 
                                 </div>
                             </div> */}
-                            <UpdateProductPage update={update} id={data.id} />
+                            <UpdateProductPage update={update} data={data} />
                         </div>
 
                         <div className="share-info">
@@ -123,6 +123,9 @@ export default function ProductPage() {
                     </ProductContent>
                 </div>
             </ProductPageStyles>
+
+            <ProductSlider productPage={false} />
+            <RecentlyViewed productPage={false} data={data} />
         </>
     )
 }
